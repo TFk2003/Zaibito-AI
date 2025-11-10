@@ -1,0 +1,57 @@
+[
+  {
+  "query": "What are the consequences for a trust that fails to comply with the new registration requirements?",
+  "response": "Based on the provided legal documents, the consequences for a trust that fails to comply with the new registration requirements are as follows:\n\n*   **Cessation of Function/Operation:** Any trust that fails to register as required under sub-sections (1) and (2) of the relevant Act shall cease to function or operate in any manner whatsoever. (Document 1, sub-section (3))\n*   **Proceedings by the Director:** Such a trust shall be proceeded against by the Director in terms of section 97 of the Act. (Document 1, sub-section (3))\n\n**Important Caveats:**\n*   The specific details of the proceedings by the Director under section 97 are not elaborated in the provided documents, beyond the mention that new clauses shall be added after clause (c) in section 97 (Document 2).\n*   The period within which trusts are required to register is to be specified by the Government through a notification. (Document 1, sub-section (2))\n\n**Summary of Key Points:**\nA trust that does not register as mandated will be unable to operate and will face legal action initiated by the Director under section 97 of the Act.",
+  "retrieved_documents_count": 5,
+  "context_character_count": 5852,
+  "intent_used": "general_inquiry",
+  "model_used": "gemini-2.5-flash",
+  "retrieved_documents_preview": [
+    {
+      "rank": 1,
+      "file_name": "chunk_PUB-NEW-23-000039_003.txt",
+      "score": 0.656272948,
+      "text_preview": "XXIX of 2020. (2) All trusts created under Trust Act, 1882 (Act No. II of 1882) or registered under ..."
+    },
+    {
+      "rank": 2,
+      "file_name": "chunk_PUB-NEW-23-000039_004.txt",
+      "score": 0.597732544,
+      "text_preview": "In the said Act, in section 14, for the word and figures within 14 days of receiving the request fro..."
+    },
+    {
+      "rank": 3,
+      "file_name": "chunk_PUB-NEW-23-000039_002.txt",
+      "score": 0.583785951,
+      "text_preview": "VII of 2010);; (iv) in clause (u), for the words Social Welfare, Zakat,Usher and Religious Affairs, ..."
+    }
+  ]
+},
+{
+  "query": "For a Specialized Trust to be registered, what essential document must the trustee provide to the Director, and from which authority must it originate?",
+  "response": "To register a Specialized Trust, the trustee must provide a specific document to the Director, originating from a particular authority.\n\n**Essential Document and Origin for Specialized Trust Registration:**\n\n*   **Document Required:** A No Objection Certification (NOC).\n*   **Originating Authority:** The relevant regulator.\n*   **Content Requirement:** The NOC must contain the prescribed information.\n\nThis requirement is explicitly stated for the purpose of registration of a specialized trust under the Act (Document 1, Section 12-A (1)).\n\n**Key Points:**\n*   The trustee is responsible for providing the NOC.\n*   The NOC must come from the \"relevant regulator.\"\n*   The NOC needs to include specific, \"prescribed information.\"",
+  "retrieved_documents_count": 5,
+  "context_character_count": 5453,
+  "intent_used": "general_inquiry",
+  "model_used": "gemini-2.5-flash",
+  "retrieved_documents_preview": [
+    {
+      "rank": 1,
+      "file_name": "chunk_PUB-NEW-23-000039_003.txt",
+      "score": 0.661697447,
+      "text_preview": "XXIX of 2020. (2) All trusts created under Trust Act, 1882 (Act No. II of 1882) or registered under ..."
+    },
+    {
+      "rank": 2,
+      "file_name": "chunk_PUB-NEW-23-000039_002.txt",
+      "score": 0.608337343,
+      "text_preview": "VII of 2010);; (iv) in clause (u), for the words Social Welfare, Zakat,Usher and Religious Affairs, ..."
+    },
+    {
+      "rank": 3,
+      "file_name": "chunk_PUB-NEW-23-000039_005.txt",
+      "score": 0.592025757,
+      "text_preview": "In the said Act, after section 118, the following new section shall be 11. inserted, namely: - Inser..."
+    }
+  ]
+}]

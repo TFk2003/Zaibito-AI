@@ -1,0 +1,71 @@
+{
+  "retrieved_documents": [
+    {
+      "rank": 1,
+      "score": 0.652511537,
+      "text": "VII of 2010);; (iv) in clause (u), for the words Social Welfare, Zakat,Usher and Religious Affairs, the words Industries and Commerce shall be substituted; (v) after clause (u),the following new clause shall be inserted:- (u-i) \"Specialized Trust\" means a trust created for the establishment of collective investments schemes, collective investment vehicles, private funds, pensions funds, real estate investment trust, exchange traded funds, private equity and venture capital funds, debt securities trust, trust in relation to the Federal or any Provincial any security issued by Government through capital markets, provident funds, gratuity funds, pension funds, employee benefit trust or any other trust administered by the Regulator as notified by Government in the Gazette;. 3. In the said Act, in section 5, in clause (a), the word natural shall be omitted; 4. In the said Act, in section 7- (i) the word every natural shall be omitted; and replaced with any (ii) the explanation shall be omit",
+      "file_name": "chunk_PUB-NEW-23-000039_002.txt",
+      "word_count": 270.0,
+      "char_count": 1619.0,
+      "embedding_model": "gemini-embedding-001",
+      "chunk_index": 1.0,
+      "vector_id": "gemini_1_1762627206",
+      "retrieval_method": "gemini_pinecone_semantic"
+    },
+    {
+      "rank": 2,
+      "score": 0.637825072,
+      "text": "XXIX of 2020. (2) All trusts created under Trust Act, 1882 (Act No. II of 1882) or registered under the Registration Act, 1908 (Act No. XVI of 1908) or any other law, for the time being in force, shall be required to be registered in accordance with sub-section (1) within the period as Government may, by notification, specify. (3)Any trust, which fails to register as required under sub-sections (1) and (2) shall cease to function or operate in any manner whatsoever and shall be proceeded against by the Director in terms of section 97... In the said Act, after section 12, the following new section shall be 7. inserted: - Insertion of section 12- A in Sindh Act No. XXIX of 2020. 12-A.Registration of Specialized Trust. - (1)For the purpose of registration of specialized trust under this Act, the trustee shall provide to the Director a No Objection Certification (NOC) from the relevant regulator which shall contain the prescribed information. (2) Where the trustee provides NOC under sub-se",
+      "file_name": "chunk_PUB-NEW-23-000039_003.txt",
+      "word_count": 297.0,
+      "char_count": 1786.0,
+      "embedding_model": "gemini-embedding-001",
+      "chunk_index": 2.0,
+      "vector_id": "gemini_2_1762627206",
+      "retrieval_method": "gemini_pinecone_semantic"
+    },
+    {
+      "rank": 3,
+      "score": 0.586349547,
+      "text": "(c) company means  (i) a company defined in the Companies Ordinance, 1984 (XL VII of 1984); (ii) a body corporate formed by or under any law in force in Pakistan; (iii) a modarba; (iv) (v) (vi) a body incorporated by or under the law of a country outside Pakistan relating to incorporation of companies; a trust, a co-operative society or a finance society (for any other society established or constituted by or under any law for the time being in force) a foreign association, whether incorporated or not, which the (Government) has, by general or special order, declared to be a company for the purposes of this Ordinance. (d) Development Authority means an authority formed by or under any law for the purpose of development of an area and includes any authority, society, agency, trust association or institution declared or formed or created by law or formed by order, rule, regulation, as development authority which also operates or is located in Sindh, or as may be declared as development a",
+      "file_name": "chunk_Sindh Act No.XIII of 2010_004.txt",
+      "word_count": 300.0,
+      "char_count": 1796.0,
+      "embedding_model": "gemini-embedding-001",
+      "chunk_index": 8.0,
+      "vector_id": "gemini_8_1762627206",
+      "retrieval_method": "gemini_pinecone_semantic"
+    },
+    {
+      "rank": 4,
+      "score": 0.582634,
+      "text": "4. (1) There shall be levied and collected a tax on the capital value of immovable property to be called Capital Value Tax on immovable property which shall be payable by every individual, association of persons, firm, a development authority or a company which acquires by purchase, by gift, exchange, owner of attorney other than revocable and time bound (not exceeding 60 days) executed between spouses, father, mother and son or daughter, grand parents and grand children, brother and sister, surrender or relinquishment of rights by the owner, whether affected orally or by deed or obtained through court decree except by inheritance or gift from spouse, parents, grandparent, a brother and a sister or a right to use thereof for more than 20 years or renewal of the lease by a resident of Sindh of by any other person who is non-resident and acquires immovable property in Sindh, at the rates specified in sub- section (3): Provided that in case of a bank the capital value tax shall be paid wh",
+      "file_name": "chunk_Sindh Act No.XIII of 2010_003.txt",
+      "word_count": 251.0,
+      "char_count": 1496.0,
+      "embedding_model": "gemini-embedding-001",
+      "chunk_index": 7.0,
+      "vector_id": "gemini_7_1762627206",
+      "retrieval_method": "gemini_pinecone_semantic"
+    },
+    {
+      "rank": 5,
+      "score": 0.575546265,
+      "text": "In the said Act, after section 118, the following new section shall be 11. inserted, namely: - Insertion of section 118-A in Sindh Act No. XXIX of 2020. 118-A. Delegation of powers and functions.-Notwithstanding anything contained in this Act, Government may, by notification in the official gazette, delegate any power or function under this Act to a regulator with respect to Specialized Trust, to be exercised in such manner and the circumstances as may be specified in the notification... ________ BY ORDER OF THE SPEAKER PROVINCIAL ASSEMBLY OF SINDH G.M.UMAR FAROOQ SECRETARY PROVINCIAL ASSEMBLY OF SINDH",
+      "file_name": "chunk_PUB-NEW-23-000039_005.txt",
+      "word_count": 96.0,
+      "char_count": 609.0,
+      "embedding_model": "gemini-embedding-001",
+      "chunk_index": 4.0,
+      "vector_id": "gemini_4_1762627206",
+      "retrieval_method": "gemini_pinecone_semantic"
+    }
+  ],
+  "total_retrieved": 5,
+  "retrieval_method": "gemini_pinecone_semantic",
+  "embedding_model": "gemini-embedding-001",
+  "query_vector_used": true,
+  "vector_dimension": 3072,
+  "query": "What specific types of real estate-related entities are explicitly included in the definition of a \"Specialized Trust\"",
+  "top_k_requested": 5
+}

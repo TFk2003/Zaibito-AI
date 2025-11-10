@@ -1,0 +1,36 @@
+{
+  "retrieved_documents": [
+    {
+      "rank": 1,
+      "score": 0.361949921,
+      "text": "0.5 percent in accordance with the valuation table under section 27-A. 1 percent according to market value (iii) In any other case. B) Transfer of lease by way of assignment. 2 percent of the value in accordance with the valuation table. 2 percent of the amount of consideration for such transfer. ; In the Sind Urban Immoveable Property Tax Act, 1958, in section 4, for clause 3. (g), the following shall be substituted:- Amendment of WP Act V of 1958. Levy of tax on capital value of immovable property (g) buildings and lands, annual value of which does not exceed forty eight thousand rupees, owned by widows, minor orphans, permanently disabled persons. 4.",
+      "file_name": "chunk_Sindh Act No.XIII of 2010_002.txt",
+      "word_count": 113.0,
+      "chunk_index": 6.0,
+      "vector_id": "chunk_chunk_Sindh Act No.XIII of 2010_002.txt_1761850230"
+    },
+    {
+      "rank": 2,
+      "score": 0.354027748,
+      "text": "4. (1) There shall be levied and collected a tax on the capital value of immovable property to be called Capital Value Tax on immovable property which shall be payable by every individual, association of persons, firm, a development authority or a company which acquires by purchase, by gift, exchange, owner of attorney other than revocable and time bound (not exceeding 60 days) executed between spouses, father, mother and son or daughter, grand parents and grand children, brother and sister, surrender or relinquishment of rights by the owner, whether affected orally or by deed or obtained through court decree except by inheritance or gift from spouse, parents, grandparent, a brother and a sister or a right to use thereof for more than 20 years or renewal of the lease by a resident of Sindh of by any other person who is non-resident and acquires immovable property in Sindh, at the rates specified in sub- section (3): Provided that in case of a bank the capital value tax shall be paid wh",
+      "file_name": "chunk_Sindh Act No.XIII of 2010_003.txt",
+      "word_count": 251.0,
+      "chunk_index": 7.0,
+      "vector_id": "chunk_chunk_Sindh Act No.XIII of 2010_003.txt_1761850230"
+    },
+    {
+      "rank": 3,
+      "score": 0.326302528,
+      "text": "XXIX of 2020. (2) All trusts created under Trust Act, 1882 (Act No. II of 1882) or registered under the Registration Act, 1908 (Act No. XVI of 1908) or any other law, for the time being in force, shall be required to be registered in accordance with sub-section (1) within the period as Government may, by notification, specify. (3)Any trust, which fails to register as required under sub-sections (1) and (2) shall cease to function or operate in any manner whatsoever and shall be proceeded against by the Director in terms of section 97... In the said Act, after section 12, the following new section shall be 7. inserted: - Insertion of section 12- A in Sindh Act No. XXIX of 2020. 12-A.Registration of Specialized Trust. - (1)For the purpose of registration of specialized trust under this Act, the trustee shall provide to the Director a No Objection Certification (NOC) from the relevant regulator which shall contain the prescribed information. (2) Where the trustee provides NOC under sub-se",
+      "file_name": "chunk_PUB-NEW-23-000039_003.txt",
+      "word_count": 297.0,
+      "chunk_index": 2.0,
+      "vector_id": "chunk_chunk_PUB-NEW-23-000039_003.txt_1761850230"
+    }
+  ],
+  "total_retrieved": 3,
+  "retrieval_method": "pinecone_semantic",
+  "query_vector_used": true,
+  "query": "property registration process",
+  "top_k_requested": 3
+}

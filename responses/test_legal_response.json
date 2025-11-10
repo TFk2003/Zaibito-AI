@@ -1,0 +1,22 @@
+{
+  "query": "What documents do I need for property registration in Sindh?",
+  "response": "Based on the provided legal documents, the following documents are required for property registration in Sindh:\n\n*   **Sale deed** (Source: DOCUMENT 1)\n*   **CNIC copies of buyer and seller** (Source: DOCUMENT 1)\n*   **Property documents** (Source: DOCUMENT 1)\n*   **Payment of registration fees** (Source: DOCUMENT 1)\n\nThese documents, along with the registration fees, must be submitted at the local registrar office (Source: DOCUMENT 1).\n\n**Important Caveats:**\n*   All property transfers in Sindh must be registered with the relevant sub-registrar office (Source: DOCUMENT 2).\n*   Unregistered properties may face legal challenges in court (Source: DOCUMENT 2).\n*   The registration process typically takes 7-10 working days (Source: DOCUMENT 1).\n\n**Summary of Key Points:**\nTo register property in Sindh, you need to submit the sale deed, CNIC copies of both parties, property documents, and pay the registration fees at the local registrar office. Registration is mandatory, and unregistered properties can lead to legal issues.",
+  "retrieved_documents_count": 2,
+  "context_character_count": 734,
+  "intent_used": "general_inquiry",
+  "model_used": "gemini-2.5-flash",
+  "retrieved_documents_preview": [
+    {
+      "rank": 1,
+      "file_name": "property_registration_guide.txt",
+      "score": 0.92,
+      "text_preview": "Property registration in Sindh requires submission of sale deed, CNIC copies of buyer and seller, pr..."
+    },
+    {
+      "rank": 2,
+      "file_name": "sindh_land_act.txt",
+      "score": 0.87,
+      "text_preview": "According to the Sindh Land Revenue Act, all property transfers must be registered with the relevant..."
+    }
+  ]
+}
