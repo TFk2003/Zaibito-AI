@@ -1,7 +1,6 @@
+import os
 import re
 import nltk
-import os
-from typing import List, Dict, Tuple
 
 class TextProcessor:
     def __init__(self, chunk_size=400, chunk_overlap=50):
@@ -140,12 +139,13 @@ class TextProcessor:
         while i < len(sentences):
             sentence = sentences[i]
             sentence_word_count = self.calculate_word_count(sentence)
-            
+            #print(f"{current_word_count=}, {sentence_word_count=}, {self.chunk_size=}, {self.chunk_overlap=}")
             # If adding this sentence doesn't exceed chunk size
             if current_word_count + sentence_word_count <= self.chunk_size:
                 current_chunk.append(sentence)
                 current_word_count += sentence_word_count
                 i += 1
+                print(f"Added sentence to chunk: '{sentence[:30]}...' (Total words: {current_word_count})")
             else:
                 # If current chunk is not empty, save it
                 if current_chunk:
@@ -156,6 +156,7 @@ class TextProcessor:
                         'sentence_count': len(current_chunk),
                         'char_count': len(chunk_text)
                     })
+                    print(f"Created chunk with {current_word_count} words and {len(current_chunk)} sentences")
                 
                 # Handle overlap for next chunk
                 if self.chunk_overlap > 0 and current_chunk:
@@ -163,19 +164,24 @@ class TextProcessor:
                     overlap_sentences = []
                     overlap_word_count = 0
                     
+                    print(f"Creating overlap with up to {self.chunk_overlap} words")
                     for sent in reversed(current_chunk):
                         sent_word_count = self.calculate_word_count(sent)
+                        print(f"Evaluating sentence for overlap: '{sent[:30]}...' (Words: {sent_word_count})")
                         if overlap_word_count + sent_word_count <= self.chunk_overlap:
                             overlap_sentences.insert(0, sent)
                             overlap_word_count += sent_word_count
+                            print(f"Added sentence to overlap: '{sent[:30]}...' (Total overlap words: {overlap_word_count})")
                         else:
                             break
                     
                     current_chunk = overlap_sentences
                     current_word_count = overlap_word_count
+                    print(f"Overlap created with {overlap_word_count} words and {len(overlap_sentences)} sentences")
                 else:
                     current_chunk = []
                     current_word_count = 0
+                    #print("Starting a new chunk")
         
         # Add the last chunk if it exists
         if current_chunk:
@@ -363,8 +369,9 @@ def save_chunks(chunks, base_filename="chunk"):
 
 # Example usage
 if __name__ == "__main__":
-    pdf_file = "Sindh Act No.XIII of 2010.pdf"  # Your PDF file
-    
+    directory_path = "F:\\E\\classroom\\SEMESTER 7\\FYP\\Project\\data"
+    pdf_file = "Building Bye-Laws 2007.pdf"  # Your PDF file
+    pdf_file = os.path.join(directory_path, pdf_file)
     try:
         print("Starting PDF processing...")
         
