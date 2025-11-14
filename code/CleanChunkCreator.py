@@ -1,6 +1,8 @@
-import os
-import re
-import nltk
+import os, re, nltk
+from unittest import result
+import pytesseract
+from pdf2image import convert_from_path
+import pdfplumber
 
 class TextProcessor:
     def __init__(self, chunk_size=400, chunk_overlap=50):
@@ -57,6 +59,20 @@ class TextProcessor:
         print(f"Cleaned text length: {len(text)} characters")
         return text
     
+    def split_sentence(self, sentence, max_words=300):
+        result = []
+        queue = [sentence]
+
+        while queue:
+            s = queue.pop(0)
+            if len(s.split()) > max_words:
+                mid = len(s) // 2
+                queue.append(s[:mid])
+                queue.append(s[mid:])
+            else:
+                result.append(s)
+        return result
+
     def split_into_sentences(self, text):
         """
         Split text into sentences using NLTK with fallback
@@ -64,6 +80,10 @@ class TextProcessor:
         try:
             from nltk.tokenize import sent_tokenize
             sentences = sent_tokenize(text)
+            sen = []
+            for sentence in sentences:
+                sen.extend(self.split_sentence(sentence))
+            sentences = sen
             print(f"Successfully split into {len(sentences)} sentences using NLTK")
         except Exception as e:
             print(f"NLTK sentence tokenization failed: {e}")
@@ -139,13 +159,13 @@ class TextProcessor:
         while i < len(sentences):
             sentence = sentences[i]
             sentence_word_count = self.calculate_word_count(sentence)
-            #print(f"{current_word_count=}, {sentence_word_count=}, {self.chunk_size=}, {self.chunk_overlap=}")
+            print(f"{current_word_count=}, {sentence_word_count=}, {self.chunk_size=}, {self.chunk_overlap=}")
             # If adding this sentence doesn't exceed chunk size
             if current_word_count + sentence_word_count <= self.chunk_size:
                 current_chunk.append(sentence)
                 current_word_count += sentence_word_count
                 i += 1
-                print(f"Added sentence to chunk: '{sentence[:30]}...' (Total words: {current_word_count})")
+                #print(f"Added sentence to chunk: '{sentence[:30]}...' (Total words: {current_word_count})")
             else:
                 # If current chunk is not empty, save it
                 if current_chunk:
@@ -156,7 +176,7 @@ class TextProcessor:
                         'sentence_count': len(current_chunk),
                         'char_count': len(chunk_text)
                     })
-                    print(f"Created chunk with {current_word_count} words and {len(current_chunk)} sentences")
+                    #print(f"Created chunk with {current_word_count} words and {len(current_chunk)} sentences")
                 
                 # Handle overlap for next chunk
                 if self.chunk_overlap > 0 and current_chunk:
@@ -164,20 +184,20 @@ class TextProcessor:
                     overlap_sentences = []
                     overlap_word_count = 0
                     
-                    print(f"Creating overlap with up to {self.chunk_overlap} words")
+                    #print(f"Creating overlap with up to {self.chunk_overlap} words")
                     for sent in reversed(current_chunk):
                         sent_word_count = self.calculate_word_count(sent)
-                        print(f"Evaluating sentence for overlap: '{sent[:30]}...' (Words: {sent_word_count})")
+                        #print(f"Evaluating sentence for overlap: '{sent[:30]}...' (Words: {sent_word_count})")
                         if overlap_word_count + sent_word_count <= self.chunk_overlap:
                             overlap_sentences.insert(0, sent)
                             overlap_word_count += sent_word_count
-                            print(f"Added sentence to overlap: '{sent[:30]}...' (Total overlap words: {overlap_word_count})")
+                            #print(f"Added sentence to overlap: '{sent[:30]}...' (Total overlap words: {overlap_word_count})")
                         else:
                             break
                     
                     current_chunk = overlap_sentences
                     current_word_count = overlap_word_count
-                    print(f"Overlap created with {overlap_word_count} words and {len(overlap_sentences)} sentences")
+                    #print(f"Overlap created with {overlap_word_count} words and {len(overlap_sentences)} sentences")
                 else:
                     current_chunk = []
                     current_word_count = 0
@@ -300,14 +320,33 @@ class SimpleTextProcessor:
 def extract_text_from_pdf(pdf_path):
     """Extract text from PDF using pdfminer"""
     try:
-        from pdfminer.high_level import extract_text
-        print(f"Extracting text from {pdf_path}...")
-        text = extract_text(pdf_path)
-        return text
+        with pdfplumber.open(pdf_path) as pdf:
+            print(f"Extracting text from {pdf_path}...")
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + "\n"
+        
+        if text.strip():
+            print(f"Extracted Direct text length: {len(text)} characters")
+            return text
     except ImportError:
         print("pdfminer.six not available. Using fallback PDF extraction...")
         # Fallback PDF extraction code would go here
         return ""
+    except:
+        text = ""
+        try:
+            images = convert_from_path(pdf_path, dpi=200)
+            # OCR each page
+            for i, image in enumerate(images):
+                page_text = pytesseract.image_to_string(image, lang='eng')
+                text += f"Page {i+1}:\n{page_text}\n"
+            print(f"OCR extracted text length: {len(text)} characters")
+        except Exception as e:
+            print(f"OCR processing failed: {e}")
+        
+        return text
 
 # Main processing function
 def process_pdf_to_chunks(pdf_path, chunk_size=400, chunk_overlap=50, use_nltk=True):
@@ -369,22 +408,25 @@ def save_chunks(chunks, base_filename="chunk"):
 
 # Example usage
 if __name__ == "__main__":
-    directory_path = "F:\\E\\classroom\\SEMESTER 7\\FYP\\Project\\data"
-    pdf_file = "Building Bye-Laws 2007.pdf"  # Your PDF file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    directory_path = os.path.join(script_dir, "..", "data")
+    directory_path = os.path.normpath(directory_path)
+    pdf_file = "BenamiTransactionAct2017.pdf"  # Your PDF file
     pdf_file = os.path.join(directory_path, pdf_file)
     try:
         print("Starting PDF processing...")
         
         # Try with NLTK first, fallback to simple if needed
         try:
-            cleaned_text, chunks = process_pdf_to_chunks(pdf_file, chunk_size=300, chunk_overlap=30, use_nltk=True)
+            cleaned_text, chunks = process_pdf_to_chunks(pdf_file, chunk_size=400, chunk_overlap=30, use_nltk=True)
         except Exception as e:
             print(f"NLTK processing failed, trying simple method: {e}")
             cleaned_text, chunks = process_pdf_to_chunks(pdf_file, chunk_size=300, chunk_overlap=30, use_nltk=False)
         
         if chunks:
             analyze_chunks(chunks)
-            save_chunks(chunks, base_filename="chunk_"+pdf_file.removesuffix(".pdf"))
+            file_name = os.path.basename(pdf_file)
+            save_chunks(chunks, base_filename="chunk_"+file_name.removesuffix(".pdf"))
             print(f"\nSuccessfully processed {len(chunks)} chunks!")
         else:
             print("No chunks were created")

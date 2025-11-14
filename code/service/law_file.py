@@ -28,3 +28,6 @@ def get_files(db: Session, skip: int = 0, limit: int = 100) -> List[LawFile]:
 def get_file_id_by_name(db: Session, file_name: str) -> int:
     file_record = db.query(LawFile).filter(LawFile.file_name == file_name).first()
     return file_record.id if file_record else None
+
+def get_file_by_id(db: Session, file_id: int) -> LawFile:
+    return db.query(LawFile).filter(LawFile.id == file_id).first()

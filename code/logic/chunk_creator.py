@@ -1,6 +1,10 @@
+from pdf2image import convert_from_path
+import pdfplumber, pytesseract
 from code.controller.chunk import create_new_chunk
 from code.controller.law_file import LawFileController
 import os, re, nltk
+
+from code.models.law_file import LawFile
 
 class ChunkCreator:
     def __init__(self, chunk_size=400, chunk_overlap=50):
@@ -24,16 +28,22 @@ class ChunkCreator:
         controller = LawFileController()
         return controller.get_file_id_by_name(file_name=file_name)
     
+    def get_file_by_id(self, file_id):
+        controller = LawFileController()
+        return controller.get_file_by_id(file_id=file_id)
+
     def add_law_file(self, pdf_path):
         controller = LawFileController()
         controller.add_law_file(pdf_path=pdf_path)
+        print(f"Added law file: {pdf_path}")
 
-    def check_chunked_status(self, file):
+    def check_chunked_status(self, file: LawFile):
         return file.chunked
     
     def mark_file_as_chunked(self, file_id):
         controller = LawFileController()
-        updated_file = controller.update_file_chunked_status(file_id=file_id, chunked=True)
+        updated_file = controller.update_law_file_chunked_status(file_id=file_id, chunked=True)
+        print(f"Marked file ID {file_id} as chunked.")
         return updated_file
     
     def get_directory_files(self, directory_path):
@@ -80,9 +90,23 @@ class ChunkCreator:
         # Strip leading/trailing whitespace
         text = text.strip()
         
-        # print(f"Cleaned text length: {len(text)} characters")
+        print(f"Cleaned text length: {len(text)} characters")
         return text
     
+    def split_sentence(self, sentence, max_words=300):
+        result = []
+        queue = [sentence]
+
+        while queue:
+            s = queue.pop(0)
+            if len(s.split()) > max_words:
+                mid = len(s) // 2
+                queue.append(s[:mid])
+                queue.append(s[mid:])
+            else:
+                result.append(s)
+        return result
+
     def split_into_sentences(self, text):
         """
         Split text into sentences using NLTK with fallback
@@ -90,6 +114,10 @@ class ChunkCreator:
         try:
             from nltk.tokenize import sent_tokenize
             sentences = sent_tokenize(text)
+            sen = []
+            for sentence in sentences:
+                sen.extend(self.split_sentence(sentence))
+            sentences = sen
             print(f"Successfully split into {len(sentences)} sentences using NLTK")
         except Exception as e:
             print(f"NLTK sentence tokenization failed: {e}")
@@ -166,6 +194,7 @@ class ChunkCreator:
                 'char_count': len(chunk_text)
             })
         
+        print(f"Created {len(chunks)} chunks from text")
         return chunks
     
     def calculate_word_count(self, text):
@@ -194,12 +223,27 @@ class ChunkCreator:
     def extract_text_from_pdf(self, pdf_path):
         """Extract text from PDF using pdfminer"""
         try:
-            from pdfminer.high_level import extract_text
-            text = extract_text(pdf_path)
-            return text
-        except ImportError:
-            print("pdfminer.six not available.")
-            return ""
+            with pdfplumber.open(pdf_path) as pdf:
+                for page in pdf.pages:
+                    page_text = page.extract_text()
+                    if page_text:
+                       text += page_text + "\n"
+        
+            if text.strip():
+                print(f"Extracted text from: {pdf_path}")
+                return text
+        except:
+            text = ""
+            try:
+                images = convert_from_path(pdf_path, dpi=200)
+                # OCR each page
+                for i, image in enumerate(images):
+                    page_text = pytesseract.image_to_string(image, lang='eng')
+                    text += f"Page {i+1}:\n{page_text}\n"
+                print(f"OCR extracted text length: {len(text)} characters")
+            except Exception as e:
+                print(f"OCR processing failed: {e}")
+        return text        
         
     def save_chunks(self, chunks, file_id, base_filename="chunk"):
         """Save chunks to individual files"""
