@@ -167,3 +167,12 @@ reports/
 # Custom local files
 /local.properties
 /secrets/
+
+*.py[cod]
+__pycache__/
+
+venv/
+.env/
+*.env
+.env*.local
+.env
