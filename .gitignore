@@ -1,0 +1,169 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Windows image file caches
+ehthumbs.db
+Icon?
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# JetBrains
+out/
+*.iml
+*.ipr
+*.iws
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+package-lock.json
+.pnp.*
+.next/
+.nuxt/
+dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+htmlcov/
+.coverage
+.tox/
+.pytest_cache/
+migrations/*.pyc
+.mypy_cache/
+.pyre/
+
+# Java / JVM
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+.gradle/
+gradle-app.setting
+local.properties
+
+# Maven
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Android
+*.iml
+.gradle/
+local.properties
+/.idea/caches
+/.idea/libraries
+/*.apk
+/*.ap_
+/captures/
+/.externalNativeBuild/
+
+# Go
+bin/
+pkg/
+*.exe
+*.exe~
+*.test
+
+# Rust
+/target/
+**/*.rs.bk
+
+# C/C++
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.ilk
+*.pdb
+*.idb
+*.class
+
+# Ruby
+.bundle/
+*.gem
+log/
+tmp/
+db/*.sqlite3
+coverage/
+.rspec
+
+# PHP / Composer
+/vendor/
+composer.lock
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+*.sql
+
+# Secrets / environment
+.env*
+secrets.yml
+*.pem
+*.key
+*.crt
+
+# Logs and runtime
+*.log
+logs/
+*.pid
+*.seed
+tmp/
+.cache/
+
+# Containers
+docker-compose.override.yml
+docker-sync.yml
+.env.docker
+
+# Misc
+coverage/
+reports/
+*.csv
+*.tsv
+*.local
+.idea/
+.vagrant/
+.vagrant.d/
+*.bak
+*.swp
+*.swo
+
+# Git
+.gitignore    # keep project .gitignore tracked; change as needed
+.gitattributes
+.git-credentials
+
+# Custom local files
+/local.properties
+/secrets/

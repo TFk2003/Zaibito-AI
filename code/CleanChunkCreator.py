@@ -159,7 +159,7 @@ class TextProcessor:
         while i < len(sentences):
             sentence = sentences[i]
             sentence_word_count = self.calculate_word_count(sentence)
-            print(f"{current_word_count=}, {sentence_word_count=}, {self.chunk_size=}, {self.chunk_overlap=}")
+            #print(f"{current_word_count=}, {sentence_word_count=}, {self.chunk_size=}, {self.chunk_overlap=}")
             # If adding this sentence doesn't exceed chunk size
             if current_word_count + sentence_word_count <= self.chunk_size:
                 current_chunk.append(sentence)
@@ -411,7 +411,7 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     directory_path = os.path.join(script_dir, "..", "data")
     directory_path = os.path.normpath(directory_path)
-    pdf_file = "BenamiTransactionAct2017.pdf"  # Your PDF file
+    pdf_file = "Stamp Act, 1899.pdf"  # Your PDF file
     pdf_file = os.path.join(directory_path, pdf_file)
     try:
         print("Starting PDF processing...")
