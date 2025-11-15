@@ -12,6 +12,18 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = os.getenv("DATABASE_URL")
+
+    # # Google API
+    GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY")
+
+    # # Pinecone
+    PINECONE_API_KEY: str = os.getenv("PINECONE_API_KEY")
+
+    # # Embedding Model
+    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "gemini-embedding-001")
+
+    # # Pinecone Index Name
+    INDEX_NAME: str = os.getenv("INDEX_NAME", "zabito-legal-gemini")
     
     # # Security
     # SECRET_KEY: str = "your-secret-key-here-change-in-production"

@@ -1,4 +1,4 @@
-from code.models.chunk import Chunk
+from model_code.models.chunk import Chunk
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -9,5 +9,5 @@ def create_chunk(db: Session, chunk_name, chunk_data, file_id) -> Chunk:
     db.refresh(chunk_record)
     return chunk_record
 
-def get_chunks(db: Session) -> List[Chunk]:
-    return db.query(Chunk).all()
+def get_chunks(db: Session, skip: int = 0, limit: int = 100) -> List[Chunk]:
+    return db.query(Chunk).offset(skip).limit(limit).all()

@@ -1,10 +1,10 @@
 from pdf2image import convert_from_path
 import pdfplumber, pytesseract
-from code.controller.chunk import create_new_chunk
-from code.controller.law_file import LawFileController
+from model_code.controller.chunk import create_new_chunk
+from model_code.controller.law_file import LawFileController
 import os, re, nltk
 
-from code.models.law_file import LawFile
+from model_code.models.law_file import LawFile
 
 class ChunkCreator:
     def __init__(self, chunk_size=400, chunk_overlap=50):

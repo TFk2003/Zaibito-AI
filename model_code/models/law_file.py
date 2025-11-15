@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, LargeBinary as Bytea
 from sqlalchemy.orm import relationship
-from code.core.database import Base
+from model_code.core.database import Base
 
 class LawFile(Base):
     __tablename__ = 'law_files'

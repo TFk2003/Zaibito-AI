@@ -1,4 +1,4 @@
-from code.logic.chunk_creator import ChunkCreator
+from model_code.logic.chunk_creator import ChunkCreator
 import os
 
 def working():

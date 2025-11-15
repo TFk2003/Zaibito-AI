@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from code.core.config import settings
+from model_code.core.config import settings
 
 # Create engine with PostgreSQL-specific configuration
 engine = create_engine(

@@ -1,5 +1,5 @@
-from code.service.law_file import add_file, get_file_by_id, get_files, update_file_chunked_status, get_file_id_by_name
-from code.core.database import SessionLocal
+from model_code.service.law_file import add_file, get_file_by_id, get_files, update_file_chunked_status, get_file_id_by_name
+from model_code.core.database import SessionLocal
 import os
 class LawFileController:
     

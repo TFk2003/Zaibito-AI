@@ -1,4 +1,4 @@
-from code.models.law_file import LawFile
+from model_code.models.law_file import LawFile
 from sqlalchemy.orm import Session
 from typing import List
 
