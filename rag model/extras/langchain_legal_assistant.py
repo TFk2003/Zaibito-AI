@@ -353,7 +353,7 @@ def main():
         print("1. Ask legal question")
         print("2. View conversation history")
         print("3. Clear conversation history")
-        print("4. Test with sample questions")
+        #print("4. Test with sample questions")
         print("5. Exit")
         
         choice = input("\nEnter your choice (1-5): ").strip()
@@ -375,8 +375,8 @@ def main():
             assistant.clear_conversation_history()
             print("✅ Conversation history cleared")
             
-        elif choice == '4':
-            test_langchain_assistant()
+        # elif choice == '4':
+        #     test_langchain_assistant()
             
         elif choice == '1':
             question = input("\nEnter your legal question: ").strip()
@@ -407,8 +407,8 @@ if __name__ == "__main__":
     print("pip install langchain langchain-community langchain-google-genai pinecone-client")
     
     # Run test
-    print("\n🧪 Testing LangChain Legal Assistant...")
-    test_langchain_assistant()
+    # print("\n🧪 Testing LangChain Legal Assistant...")
+    # test_langchain_assistant()
     
     # Run interactive
     print("\n\n🎮 Starting LangChain Interactive Mode...")
