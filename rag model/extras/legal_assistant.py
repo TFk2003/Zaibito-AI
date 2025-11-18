@@ -238,12 +238,16 @@ def display_legal_response(results: Dict[str, Any]):
             print(f"   #{doc['rank']} - {doc['file_name']} (Score: {doc['score']:.4f})")
             print(f"      Preview: {doc['text_preview']}")
 
-def save_legal_response(results: Dict[str, Any], filename: str = "legal_assistant_response.json", mode: str = "append"):
+def save_legal_response(results: Dict[str, Any], filename: str = "legal_response.json", mode: str = "append"):
     """Save legal assistant response to JSON file with append or overwrite mode"""
     try:
-        if mode == "append" and os.path.exists(filename):
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        directory_path = os.path.join(script_dir, "..", "responses")
+        directory_path = os.path.normpath(directory_path)
+        filepath = os.path.join(directory_path, filename)
+        if mode == "append" and os.path.exists(filepath):
             # Load existing data
-            with open(filename, 'r', encoding='utf-8') as f:
+            with open(filepath, 'r', encoding='utf-8') as f:
                 existing_data = json.load(f)
             
             # Ensure existing data is a list
@@ -460,12 +464,18 @@ def main():
 
 if __name__ == "__main__":
     # Install required packages
-    print("Required packages: pip install google-generativeai")
+    # print("Required packages: pip install google-generativeai")
     
-    # Run test first
-    # print("🧪 Testing Legal Assistant...")
-    # test_legal_assistant()
+    # # Run test first
+    # # print("🧪 Testing Legal Assistant...")
+    # # test_legal_assistant()
     
-    # Then run interactive mode
-    print("\n\n🎮 Starting ZABITO Legal Assistant...")
-    main()
+    # # Then run interactive mode
+    # print("\n\n🎮 Starting ZABITO Legal Assistant...")
+    # main()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    directory_path = os.path.join(script_dir, "..", "responses")
+    directory_path = os.path.normpath(directory_path)
+    filename: str = "legal_response.json"
+    print(os.path.join(directory_path, filename))
+    print(os.path.exists(os.path.join(directory_path, filename)))

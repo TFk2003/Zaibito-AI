@@ -1,7 +1,0 @@
-pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG
-
-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
-
-AIzaSyCohN1h7KxM3iaUuO-Eg_gUbUYBUQ7eGZw
-
-psql 'postgresql://neondb_owner:npg_lNMSWi6Ge0aA@ep-damp-fire-a1k5ipm7-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'

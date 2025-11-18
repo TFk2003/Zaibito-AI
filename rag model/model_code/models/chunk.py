@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from model_code.core.database import Base
 
@@ -9,5 +9,6 @@ class Chunk(Base):
     chunk_name = Column(String(256), nullable=False)
     chunk_data = Column(String, nullable=False)
     file_id = Column(Integer, ForeignKey("law_files.id"), nullable=False)
+    embedded = Column(Boolean, default=False)
     
     file = relationship("LawFile", back_populates="chunks")
