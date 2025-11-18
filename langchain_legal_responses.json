@@ -1,0 +1,42 @@
+[
+  {
+    "question": "What documents are required for property registration in Sindh?",
+    "answer": "Based on the provided documents, a comprehensive list of specific documents required for property registration in Sindh is not explicitly detailed. However, the context mentions the following types of documents and procedures related to property transactions and registration:\n\n*   **Allotment Orders or Transfer Allotment Orders:** These documents are issued by developers, builders, Co-operative Societies, housing societies, housing authorities, or other organizations for open plots before a lease is issued. The documents indicate charges based on plot size (e.g., up to 399 sq.yds. and 400 sq.yds. for residential open plots). While not explicitly stated as \"required for registration,\" their mention in the context of charges for plots suggests their relevance in property transactions (Context: \"Allotment orders or Transfer Allotment orders issued by a developer...\").\n*   **Documents Executed by Several Persons:** The text states that \"documents executed by several persons at different times\" may be presented for registration and re-registration within four months from the date of each execution (Context: Section 24). This refers to the general category of documents that are subject to registration, but does not specify their nature (e.g., sale deed, gift deed, etc.).\n\n**Key Legal Considerations from the Provided Context:**\n\n*   **Registration Act, 1908 (as amended for Sindh):** The process of property registration in Sindh is governed by the Registration Act, 1908, which has been amended for the Province of Sindh. For instance, the word \"Sindh\" is to be inserted before \"Registration No.XVI of 1992, Act\" in section 1(1) of the said Act (Context: Section 3).\n*   **Timelines for Registration:** Documents executed by multiple persons at different times can be presented for registration and re-registration within four months from the date of each execution (Context: Section 24).\n*   **Recent Amendments:** The provided text highlights recent amendments to the Registration Act, 1908, including:\n    *   Amendment of section 6 of Act No.XVI of 1908.\n    *   Amendment of section 7 of Act No.XVI of 1908.\n    *   Omission of sections 10, 11 and 30 of Act No. XVI of 1908.\n    *   Amendment of section 14 of Act No. XVI of 1908.\n    These amendments, published in The Sindh Govt. Gazette Ext. on Jan. 24, 2024, indicate ongoing updates to the legal framework governing registration procedures (Context: Page 6).\n\n**Important Caveats:**\n\n*   The provided text does not offer a comprehensive list of all documents typically required for various types of property registration (e.g., sale deeds, gift deeds, mortgage deeds, etc.).\n*   The specific charges mentioned for \"Allotment orders or Transfer Allotment orders\" are for open plots *before lease* and are based on plot size.\n\n**Summary of Key Legal Considerations:**\nWhile the provided documents refer to \"Allotment orders or Transfer Allotment orders\" and \"documents executed\" as relevant to property transactions and registration, a detailed list of all required documents for property registration in Sindh is not available. The process is governed by the amended Registration Act, 1908, and recent amendments indicate ongoing updates to the legal framework.",
+    "source_documents": [
+      {
+        "rank": 1,
+        "source": "The Registration (Sindh Amendment) Act 2024",
+        "content_preview": "3. In the Registration Act, 1908, for its application to the Amendment of Province of Sindh, hereinafter referred to as the said Act, in section 1 of Act section 1, in sub-seetion (1), before the word...",
+        "score": "N/A"
+      },
+      {
+        "rank": 2,
+        "source": "Stamp Duty Schedule",
+        "content_preview": "Allotment orders or Transfer Allotment orders issued by a developer, builder, Co-operative Society, housing society or housing authority, or any other body or organization providing open plots before ...",
+        "score": "N/A"
+      },
+      {
+        "rank": 3,
+        "source": "The_Registration_Act_1908",
+        "content_preview": "24. Documents executed by several persons at different times: Where there are several persons executing a document at different times, Page 12: such document may be presented for registration and re-r...",
+        "score": "N/A"
+      },
+      {
+        "rank": 4,
+        "source": "Karachi Building and Town Planning Regulations, 2002 (KBTPR, 2002)",
+        "content_preview": "sake ity right therein liable to be extingrisls or-in . way Unpelred and shall keep the sai properties free a ne i re ne ths ee ee ee charges and encumbrances af what so sever nature. ee ae for Ms, Bu...",
+        "score": "N/A"
+      },
+      {
+        "rank": 5,
+        "source": "The Registration (Sindh Amendment) Act 2024",
+        "content_preview": "Amendment of section 6 of Act No.XVI of 1908. Amendment of section 7 of Act No.XVI of 1908. Omission of sections 10, 11 and 30 of Act No. XVI of 1908. Amendment of section 14 of Act No. XVI of 1908. P...",
+        "score": "N/A"
+      }
+    ],
+    "documents_retrieved": 5,
+    "timestamp": "2025-11-18T23:50:03.801921",
+    "embedding_model": "Gemini",
+    "retrieval_method": "MMR (Max Marginal Relevance)"
+  }
+]

@@ -2,13 +2,13 @@ import os
 import json
 from typing import List, Dict, Any
 from datetime import datetime
-from langchain_community.vectorstores import Pinecone
+from langchain_pinecone import Pinecone
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.embeddings import Embeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.documents import Document
-from langchain_classic.chains.retrieval import RetrievalQA
+from langchain_classic.chains.retrieval import create_retrieval_chain
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.memory import ConversationBufferMemory
 from langchain_classic.chains.conversational_retrieval.base import ConversationalRetrievalChain
@@ -17,7 +17,7 @@ import google.generativeai as genai
 class GeminiEmbeddings(Embeddings):
     """Custom Gemini Embeddings for LangChain"""
     
-    def __init__(self, google_api_key: str, model: str = "models-embedding-001"):
+    def __init__(self, google_api_key: str, model: str = "gemini-embedding-001"):
         self.google_api_key = google_api_key
         self.model = model
         genai.configure(api_key=google_api_key)
@@ -62,7 +62,7 @@ class LegalAssistantLangChain:
             print("🔤 Using Gemini Embeddings...")
             embeddings = GeminiEmbeddings(
                 google_api_key=self.google_api_key,
-                model="models/embedding-001"
+                model="gemini-embedding-001"
             )
         else:
             print("🔤 Using Local Sentence Transformers...")
@@ -75,17 +75,23 @@ class LegalAssistantLangChain:
         # Initialize vector store
         print("🗂️ Connecting to Pinecone...")
         from pinecone import Pinecone as PineconeClient
+        from langchain_pinecone import PineconeVectorStore
         pc = PineconeClient(api_key=self.pinecone_api_key)
+        #print(f"Pinecone indexes available: {pc.list_indexes()}")
+        # Get the index
+        index = pc.Index(self.index_name)
         
-        self.vectorstore = Pinecone.from_existing_index(
-            index_name=self.index_name,
-            embedding=embeddings
+        # Create vectorstore from existing index
+        self.vectorstore = PineconeVectorStore(
+            index=index,
+            embedding=embeddings,
+            text_key="text_preview"  # The metadata field where text is stored
         )
         
         # Initialize LLM
         print("🧠 Initializing Gemini LLM...")
         llm = ChatGoogleGenerativeAI(
-            model="gemini-pro",
+            model="gemini-2.5-flash",
             google_api_key=self.google_api_key,
             temperature=0.1,
             convert_system_message_to_human=True
@@ -167,7 +173,7 @@ ZABITO Legal Response:"""
         
         try:
             # Execute the query
-            result = self.qa_chain({"question": question})
+            result = self.qa_chain.invoke({"question": question})
             
             # Extract source documents information
             source_docs = []
@@ -253,7 +259,7 @@ class AdvancedLegalRetriever:
 def get_langchain_config():
     """Get LangChain configuration"""
     return {
-        'google_api_key': "AIzaSyC4n1dneku3v9pQ0_yxAWX2_CeM2sDd2ow",
+        'google_api_key': "AIzaSyCaEtgYarRYY3LU9g7Lt1jsH3qY6ZyfdaI",
         'pinecone_api_key': "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG",
         'index_name': "zabito-legal-gemini",  # or "zabito-legal-gemini" for local
         'use_gemini_embeddings': True
@@ -265,7 +271,7 @@ def display_langchain_response(response: Dict[str, Any]):
     print(f"\n🎯 LANGCHAIN LEGAL RESPONSE")
     print("=" * 80)
     print(f"📝 Question: {response['question']}")
-    print(f"🤖 Model: Gemini-Pro")
+    print(f"🤖 Model: Gemini-2.5-flash")
     print(f"🔤 Embeddings: {response.get('embedding_model', 'Unknown')}")
     print(f"🔍 Retrieval: {response.get('retrieval_method', 'Unknown')}")
     print(f"📚 Documents: {response['documents_retrieved']}")

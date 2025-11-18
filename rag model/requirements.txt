@@ -45,6 +45,7 @@ torch>=2.9.0
 transformers>=4.57.1
 
 # Vector Database
+pinecone>=7.3.0
 pinecone-client>=6.0.0
 
 # LLM & AI Services
