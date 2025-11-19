@@ -22,3 +22,6 @@ def mark_chunk_as_embedded(db: Session, chunk_id: int) -> Chunk:
         db.commit()
         db.refresh(chunk_record)
     return chunk_record
+
+def get_chunk_by_id(db: Session, chunk_id: int) -> Chunk:
+    return db.query(Chunk).filter(Chunk.id == chunk_id).first()

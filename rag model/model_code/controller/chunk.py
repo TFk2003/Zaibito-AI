@@ -1,4 +1,4 @@
-from model_code.service.chunk import create_chunk, get_embedded_chunks, get_unembedded_chunks, mark_chunk_as_embedded
+from model_code.service.chunk import create_chunk, get_chunk_by_id, get_embedded_chunks, get_unembedded_chunks, mark_chunk_as_embedded
 from model_code.core.database import SessionLocal
 
 def create_new_chunk(chunk_name, chunk_data, file_id):
@@ -20,3 +20,8 @@ def get_all_embedded_chunks(skip: int = 0, limit: int = 100):
     with SessionLocal() as db:
         chunks = get_embedded_chunks(db=db, skip=skip, limit=limit)
         return chunks
+    
+def get_chunk_details(chunk_id: int):
+    with SessionLocal() as db:
+        chunk = get_chunk_by_id(db=db, chunk_id=chunk_id)
+        return chunk

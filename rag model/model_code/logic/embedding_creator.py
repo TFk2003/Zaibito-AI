@@ -464,6 +464,7 @@ class EmbeddingCreator:
                 "is_property_related": bool(chunk.get('is_property_related', False)),
                 "keywords": chunk.get('keywords', []),
                 "text_preview": (chunk.get('text') or "")[:300],
+                "full_text": chunk.get('text', ""),
                 "token_count": chunk.get('token_count', self.estimate_token_count(chunk.get('text',''))),
                 "source_page": chunk.get('source_page'),
                 "embedding_model": chunk.get('embedding_model', getattr(self, 'embedding_model', 'gemini')),
