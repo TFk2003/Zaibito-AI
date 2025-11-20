@@ -259,9 +259,9 @@ class AdvancedLegalRetriever:
 def get_langchain_config():
     """Get LangChain configuration"""
     return {
-        'google_api_key': "AIzaSyCaEtgYarRYY3LU9g7Lt1jsH3qY6ZyfdaI",
-        'pinecone_api_key': "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG",
-        'index_name': "zabito-legal-gemini",  # or "zabito-legal-gemini" for local
+        'google_api_key': "",
+        'pinecone_api_key': "",
+        'index_name': "your-index-name",  # or "zabito-legal-gemini" for local
         'use_gemini_embeddings': True
     }
 

@@ -4,7 +4,7 @@ from pinecone import Pinecone
 def test_pinecone_v3():
     try:
         # Initialize Pinecone
-        pc = Pinecone(api_key="pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG")
+        pc = Pinecone(api_key="your-pinecone-api-key", environment="your-environment")
         
         # List indexes
         indexes = pc.list_indexes()

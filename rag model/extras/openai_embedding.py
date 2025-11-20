@@ -224,10 +224,10 @@ class GeminiEmbedder:
 # Configuration
 def get_gemini_config():
     """Get Gemini configuration"""
-    GOOGLE_API_KEY = "AIzaSyCohN1h7KxM3iaUuO-Eg_gUbUYBUQ7eGZw"
-    PINECONE_API_KEY = "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG"
+    GOOGLE_API_KEY = "your-google-api-key"
+    PINECONE_API_KEY = "your-pinecone-api-key"
     MODEL = "gemini-embedding-001"  # Options: "text-embedding-3-small", "text-embedding-3-large", "text-embedding-ada-002"
-    INDEX_NAME = "zabito-legal-gemini"
+    INDEX_NAME = "your-index-name"
     
     # Validate API keys
     if not GOOGLE_API_KEY or len(GOOGLE_API_KEY) < 20:

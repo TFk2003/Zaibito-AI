@@ -6,7 +6,7 @@ from typing import List, Dict, Any
 from datetime import datetime
 
 class DocumentEmbedder:
-    def __init__(self, model_name='all-MiniLM-L6-v2', pinecone_api_key=None, index_name="zabito-legal-index"):
+    def __init__(self, model_name='all-MiniLM-L6-v2', pinecone_api_key=None, index_name="your-index-name"):
         self.model_name = model_name
         self.pinecone_api_key = pinecone_api_key
         self.index_name = index_name
@@ -160,8 +160,8 @@ class DocumentEmbedder:
 def get_pinecone_config():
     """Get Pinecone configuration directly"""
     # REPLACE THIS WITH YOUR ACTUAL PINECONE API KEY
-    PINECONE_API_KEY = "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG"
-    INDEX_NAME = "zabito-legal-index"
+    PINECONE_API_KEY = "your-pinecone-api-key"
+    INDEX_NAME = "your-index-name"
     
     # Validate the API key
     if not PINECONE_API_KEY or len(PINECONE_API_KEY) < 20:
@@ -391,7 +391,7 @@ def main(file_pattern="chunk_001.txt", mode="append", skip_processed=True, use_p
     """
     
     # Configuration
-    PINECONE_API_KEY = "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG" if use_pinecone else None
+    PINECONE_API_KEY = "" if use_pinecone else None
     
     print("=== DOCUMENT EMBEDDING PIPELINE ===")
     print(f"Mode: {mode}, Skip Processed: {skip_processed}, Use Pinecone: {use_pinecone}")

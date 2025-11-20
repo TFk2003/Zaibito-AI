@@ -208,7 +208,7 @@ Now provide your expert legal assistance based on the above context:
 # Configuration for Gemini Legal Assistant
 def get_legal_assistant_config():
     """Get legal assistant configuration"""
-    GOOGLE_API_KEY = "AIzaSyCohN1h7KxM3iaUuO-Eg_gUbUYBUQ7eGZw"
+    GOOGLE_API_KEY = ""
     MODEL_NAME = "gemini-2.5-flash"  # Using gemini-2.5-flash for better reasoning
     
     return {

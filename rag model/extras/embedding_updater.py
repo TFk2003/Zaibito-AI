@@ -4,7 +4,7 @@ from typing import List, Dict, Any
 from pinecone import Pinecone
 
 class ChunkMetadataUpdater:
-    def __init__(self, pinecone_api_key: str, index_name: str = "zabito-legal-gemini"):
+    def __init__(self, pinecone_api_key: str, index_name: str = ""):
         self.pinecone_api_key = pinecone_api_key
         self.index_name = index_name
         self.pc = Pinecone(api_key=pinecone_api_key)
@@ -196,8 +196,8 @@ def process_all_embedded_chunks():
     
     # Your configuration
     config = {
-        'pinecone_api_key': "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG",
-        'index_name': "zabito-legal-index"  # or "zabito-legal-gemini" if using Gemini
+        'pinecone_api_key': "your-pinecone-api-key",
+        'index_name': "your-index-name"  # or "zabito-legal-gemini" if using Gemini
     }
     
     updater = ChunkMetadataUpdater(**config)
@@ -249,8 +249,8 @@ def extract_chunk_filenames_from_local():
 def verify_metadata_updates():
     """Verify that metadata was updated correctly"""
     config = {
-        'pinecone_api_key': "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG",
-        'index_name': "zabito-legal-index"
+        'pinecone_api_key': "your-pinecone-api-key",
+        'index_name': "your-index-name"
     }
     
     updater = ChunkMetadataUpdater(**config)

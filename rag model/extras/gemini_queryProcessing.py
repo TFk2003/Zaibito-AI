@@ -258,7 +258,7 @@ class GeminiQueryProcessor:
 # Configuration for Gemini
 def get_gemini_query_config():
     """Get Gemini configuration for query processing"""
-    GOOGLE_API_KEY = "AIzaSyCohN1h7KxM3iaUuO-Eg_gUbUYBUQ7eGZw"
+    GOOGLE_API_KEY = "your-google-api-key"
     MODEL = "gemini-embedding-001"
     
     if not GOOGLE_API_KEY or len(GOOGLE_API_KEY) < 20:

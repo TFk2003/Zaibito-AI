@@ -3,7 +3,7 @@ import google.generativeai as genai
 from typing import List, Dict, Any
 
 class GeminiDocumentRetriever:
-    def __init__(self, google_api_key=None, pinecone_api_key=None, index_name="zabito-legal-gemini", model_name="gemini-embedding-001"):
+    def __init__(self, google_api_key=None, pinecone_api_key=None, index_name="your-index-name", model_name="gemini-embedding-001"):
         self.google_api_key = google_api_key
         self.pinecone_api_key = pinecone_api_key
         self.index_name = index_name
@@ -259,9 +259,9 @@ class GeminiDocumentRetriever:
 # Configuration for Gemini
 def get_gemini_retriever_config():
     """Get Gemini retriever configuration"""
-    GOOGLE_API_KEY = "AIzaSyCohN1h7KxM3iaUuO-Eg_gUbUYBUQ7eGZw"
-    PINECONE_API_KEY = "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG"
-    INDEX_NAME = "zabito-legal-gemini"
+    GOOGLE_API_KEY = "your-google-api-key"
+    PINECONE_API_KEY = "your-pinecone-api-key"
+    INDEX_NAME = "your-index-name"
     MODEL_NAME = "gemini-embedding-001"
     
     return {

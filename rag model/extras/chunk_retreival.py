@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from sentence_transformers import SentenceTransformer
 
 class DocumentRetriever:
-    def __init__(self, pinecone_api_key=None, index_name="zabito-legal-index", model_name='all-MiniLM-L6-v2'):
+    def __init__(self, pinecone_api_key=None, index_name="", model_name='all-MiniLM-L6-v2'):
         self.pinecone_api_key = pinecone_api_key
         self.index_name = index_name
         self.model_name = model_name
@@ -218,8 +218,8 @@ class DocumentRetriever:
 # Configuration
 def get_retriever_config():
     """Get retriever configuration"""
-    PINECONE_API_KEY = "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG"
-    INDEX_NAME = "zabito-legal-index"
+    PINECONE_API_KEY = "your-pinecone-api-key"
+    INDEX_NAME = "your-index-name"
     MODEL_NAME = "all-MiniLM-L6-v2"
     
     return {

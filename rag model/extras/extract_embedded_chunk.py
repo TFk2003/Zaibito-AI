@@ -7,7 +7,7 @@ from model_code.controller.chunk import get_all_embedded_chunks
 
 def query_pinecone_for_embedded_chunks(
     pinecone_api_key: str,
-    index_name: str = "zabito-legal-gemini",
+    index_name: str = "",
     embedded_mapping_file: str = "embedded_chunks_year_mapping.json"
 ) -> Dict[str, Dict]:
     """
@@ -199,8 +199,8 @@ def analyze_actual_chunks(actual_chunks: Dict[str, Dict]):
 if __name__ == "__main__":
     # Your configuration
     config = {
-        'pinecone_api_key': "pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG",
-        'index_name': "zabito-legal-gemini",
+        'pinecone_api_key': "your-pinecone-api-key",
+        'index_name': "your-index-name",
         'embedded_mapping_file': "embedded_chunks_year_mapping.json"
     }
     

@@ -156,8 +156,8 @@ def get_embedded_chunks():
 # Main execution
 def main():
     # Initialize Pinecone
-    pc = Pinecone(api_key="pcsk_UfHqv_QJNAVD1nz7ZxAXhdMS75q2Def87Ty9xcUh7qBXi6GrET4W8WHPEcWJvTMCiyJdG")
-    index = pc.Index("zabito-legal-gemini")
+    pc = Pinecone(api_key="your-pinecone-api-key", environment="your-environment")
+    index = pc.Index("your-index-name")
     
     # Pinecone list() output → list of lists → flatten
     raw_ids = index.list()
