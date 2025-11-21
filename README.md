@@ -104,13 +104,13 @@ project/rag_model/model_code/working_embedding.py
 
 ---
 
-## 8. Run Legal Assistant (Temporary)
+## 8. Run Legal Assistant
 
 For now, run the LangChain-based assistant:
 
 ```bash
-cd project/rag_model/extras
-langchain_legal_assistant.py
+cd project/rag_model
+legal_assistant.py
 ```
 
 This launches ZABITO AI, the real estate legal assistant for Sindh.
@@ -125,15 +125,14 @@ rag_model/
 ├── data/                       # Law PDF files
 ├── model_code/
 │   ├── controller/             # Chunking, embeddings, DB logic
-│   ├── .env                    # Environment variables
 │   └── ...
 ├── responses/
 │   └── document_year_mapping.json
-├── extras/
-│   └── langchain_legal_assistant.py
 │
 ├── working.py                  # PDF → Text → Chunking pipeline
 ├── working_embedding.py        # Embedding → Pinecone storage
-└── requirements.txt
+├── legal_assitant.py       
+├── requirements.txt
+└── .env                    # Environment variables
 
 ```
