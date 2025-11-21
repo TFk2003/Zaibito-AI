@@ -1,53 +1,187 @@
 import os
 import json
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from datetime import datetime
+from dotenv import load_dotenv
 from langchain_pinecone import Pinecone
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_core.embeddings import Embeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.documents import Document
+from langchain_core.callbacks.manager import CallbackManagerForRetrieverRun
 from langchain_classic.chains.retrieval import create_retrieval_chain
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.memory import ConversationBufferMemory
 from langchain_classic.chains.conversational_retrieval.base import ConversationalRetrievalChain
-import google.generativeai as genai
+
+load_dotenv()
+
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+INDEX_NAME       = os.getenv("INDEX_NAME")
+GOOGLE_API_KEY   = os.getenv("GOOGLE_API_KEY")
+EMBED_MODEL      = os.getenv("EMBEDDING_MODEL")
+GEN_AI_MODEL     = os.getenv("GEN_AI_MODEL")
 
 class GeminiEmbeddings(Embeddings):
     """Custom Gemini Embeddings for LangChain"""
     
-    def __init__(self, google_api_key: str, model: str = "gemini-embedding-001"):
-        self.google_api_key = google_api_key
-        self.model = model
-        genai.configure(api_key=google_api_key)
+    def __init__(self, google_api_key: str, model: str):
+        self.embeddings_model = GoogleGenerativeAIEmbeddings(
+            model=model,
+            google_api_key=google_api_key # Pass the API key if not in env vars
+        )
     
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
         """Embed search documents."""
-        embeddings = []
-        for text in texts:
-            response = genai.embed_content(
-                model=self.model,
-                content=text
-            )
-            embeddings.append(response['embedding'])
+        embeddings = self.embeddings_model.embed_documents(texts)
         return embeddings
     
     def embed_query(self, text: str) -> List[float]:
         """Embed query text."""
-        response = genai.embed_content(
-            model=self.model,
-            content=text
-        )
-        return response['embedding']
+        embedding = self.embeddings_model.embed_query(text)
+        return embedding
+
+class YearAwareRetriever(BaseRetriever):
+    """
+    Custom retriever that prioritizes recent laws while maintaining semantic relevance.
+    Uses a hybrid scoring approach: semantic_score + year_recency_boost
+    """
+    
+    vectorstore: Any
+    k: int = 5
+    fetch_k: int = 20
+    year_weight: float = 0.3  # Weight for year recency (0-1)
+    use_mmr: bool = True
+    lambda_mult: float = 0.7
+    current_year: int = datetime.now().year
+    metadata_filter: Optional[Dict[str, Any]] = None  # NEW: Add metadata filtering
+    
+    def _calculate_year_score(self, law_year: Optional[int]) -> float:
+        """
+        Calculate recency score based on law year.
+        More recent laws get higher scores.
+        """
+        if not law_year or law_year == 0:
+            return 0.0
+        
+        try:
+            law_year = int(float(law_year))
+        except (ValueError, TypeError):
+            return 0.0
+        
+        if law_year == 0 or law_year > self.current_year + 1:
+            return 0.0
+        # Calculate years difference
+        years_old = self.current_year - law_year
+        
+        # Exponential decay: newer laws get higher scores
+        # Laws from this year get 1.0, laws from 50+ years ago get ~0.0
+        decay_rate = 0.05  # Adjust this to change how quickly old laws lose priority
+        year_score = max(0.0, 1.0 - (years_old * decay_rate))
+        
+        return year_score
+    
+    def _rerank_by_year(self, documents: List[tuple]) -> List[Document]:
+        """
+        Rerank documents based on a combination of:
+        1. Original similarity score
+        2. Law year recency
+
+        Args:
+            documents: List of tuples (Document, similarity_score)
+        """
+        scored_docs = []
+        
+        for doc in documents:
+            # Get original similarity score (if available)
+            if isinstance(doc, tuple):
+                doc, similarity_score = doc
+            else:
+                doc = doc
+                # Try to get score from metadata or default
+                similarity_score = 0.5
+            
+            # Get law year from metadata
+            law_year = doc.metadata.get('law_year')
+            if isinstance(law_year, str):
+                try:
+                    law_year = int(law_year)
+                except (ValueError, TypeError):
+                    law_year = None
+            
+            # Calculate year recency score
+            year_score = self._calculate_year_score(law_year)
+            
+            # Hybrid score: weighted combination
+            # semantic_weight + year_weight should = 1.0
+            semantic_weight = 1.0 - self.year_weight
+            final_score = (semantic_weight * similarity_score) + (self.year_weight * year_score)
+            
+            # Store scores in metadata for debugging
+            doc.metadata['similarity_score'] = similarity_score
+            doc.metadata['year_score'] = year_score
+            doc.metadata['final_score'] = final_score
+            
+            scored_docs.append((doc, final_score))
+        
+        # Sort by final score (descending)
+        scored_docs.sort(key=lambda x: x[1], reverse=True)
+        
+        # Return top k documents
+        return [doc for doc, score in scored_docs[:self.k]]
+    
+    def _get_relevant_documents(
+        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
+    ) -> List[Document]:
+        """Get documents relevant to the query, prioritizing recent laws."""
+        
+        # Always use similarity_search_with_score to get actual scores
+        try:
+            # Get documents with similarity scores and optional metadata filter
+            search_kwargs = {"k": self.fetch_k}
+            if self.metadata_filter:
+                search_kwargs["filter"] = self.metadata_filter
+                
+            docs_with_scores = self.vectorstore.similarity_search_with_score(
+                query, 
+                **search_kwargs
+            )
+            
+            # Attach scores to document objects
+            processed_docs = []
+                # Pinecone returns distance, convert to similarity (higher is better)
+                # For cosine similarity: similarity = 1 - distance
+            for doc, distance in docs_with_scores:
+                similarity_score = max(0.0, min(1.0, 1.0 - distance))
+                processed_docs.append((doc, similarity_score))
+                
+        except Exception as e:
+            print(f"⚠️ Warning: Could not get similarity scores: {e}")
+            print(f"⚠️ Falling back to standard search without scores")
+            # Fallback to MMR without scores
+            docs = self.vectorstore.similarity_search(
+                query, 
+                k=self.fetch_k
+            )
+            processed_docs = [(doc, 0.5) for doc in docs]
+        
+        # Rerank by year
+        reranked_docs = self._rerank_by_year(processed_docs)
+        
+        return reranked_docs
+
 
 class LegalAssistantLangChain:
     def __init__(self, google_api_key: str, pinecone_api_key: str, 
-                 index_name: str = "zabito-legal-gemini", use_gemini_embeddings: bool = False):
+                 index_name: str , use_gemini_embeddings: bool = False,
+                 year_weight: float = 0.3, prioritize_recent: bool = True):
         self.google_api_key = google_api_key
         self.pinecone_api_key = pinecone_api_key
         self.index_name = index_name
         self.use_gemini_embeddings = use_gemini_embeddings
+        self.year_weight = year_weight
+        self.prioritize_recent = prioritize_recent
         self.vectorstore = None
         self.qa_chain = None
         self.memory = None
@@ -62,14 +196,7 @@ class LegalAssistantLangChain:
             print("🔤 Using Gemini Embeddings...")
             embeddings = GeminiEmbeddings(
                 google_api_key=self.google_api_key,
-                model="gemini-embedding-001"
-            )
-        else:
-            print("🔤 Using Local Sentence Transformers...")
-            embeddings = HuggingFaceEmbeddings(
-                model_name="all-MiniLM-L6-v2",
-                model_kwargs={'device': 'cpu'},
-                encode_kwargs={'normalize_embeddings': True}
+                model=EMBED_MODEL
             )
         
         # Initialize vector store
@@ -85,13 +212,13 @@ class LegalAssistantLangChain:
         self.vectorstore = PineconeVectorStore(
             index=index,
             embedding=embeddings,
-            text_key="text_preview"  # The metadata field where text is stored
+            text_key="full_text"  # The metadata field where text is stored
         )
         
         # Initialize LLM
         print("🧠 Initializing Gemini LLM...")
         llm = ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash",
+            model=GEN_AI_MODEL,
             google_api_key=self.google_api_key,
             temperature=0.1,
             convert_system_message_to_human=True
@@ -108,14 +235,31 @@ class LegalAssistantLangChain:
         legal_prompt = self._create_legal_prompt_template()
         
         # Initialize retriever with advanced configuration
-        self.retriever = self.vectorstore.as_retriever(
-            search_type="mmr",  # Max Marginal Relevance for diversity
-            search_kwargs={
-                "k": 5,  # Number of documents to retrieve
-                "fetch_k": 10,  # Number of documents to fetch before MMR
-                "lambda_mult": 0.7,  # Diversity parameter
-            }
-        )
+        if self.prioritize_recent:
+            print(f"📅 Using Year-Aware Retrieval (year_weight={self.year_weight})...")
+            # Optional: Add metadata filter for property-related documents only
+            # metadata_filter = {"is_property_related": True}  # Uncomment to filter
+            metadata_filter = None  # Set to None for no filtering
+
+            self.retriever = YearAwareRetriever(
+                vectorstore=self.vectorstore,
+                k=5,
+                fetch_k=30,
+                year_weight=self.year_weight,
+                use_mmr=True,
+                lambda_mult=0.8,
+                metadata_filter=metadata_filter
+            )
+        else:
+            print("🔍 Using Standard MMR Retrieval...")
+            self.retriever = self.vectorstore.as_retriever(
+                search_type="mmr",
+                search_kwargs={
+                    "k": 5,
+                    "fetch_k": 10,
+                    "lambda_mult": 0.7,
+                }
+            )
         
         # Create QA chain
         self.qa_chain = ConversationalRetrievalChain.from_llm(
@@ -130,10 +274,10 @@ class LegalAssistantLangChain:
         print("✅ LangChain Legal Assistant initialized successfully!")
     
     def _create_legal_prompt_template(self) -> PromptTemplate:
-        """Create specialized legal prompt template"""
+        """Create specialized legal prompt template with year awareness"""
         template = """You are ZABITO, an expert legal assistant specialized in Sindh property laws and Pakistani legal procedures.
 
-CONTEXT INFORMATION:
+CONTEXT INFORMATION (Documents ranked by relevance and recency - MOST RECENT LAWS FIRST):
 {context}
 
 CONVERSATION HISTORY:
@@ -142,20 +286,47 @@ CONVERSATION HISTORY:
 USER QUESTION: {question}
 
 CRITICAL LEGAL GUIDELINES:
-1. Answer STRICTLY based on the provided legal context above
-2. If information is not in the context, clearly state "Based on the provided documents, this information is not available"
-3. Do not use external knowledge or make assumptions about Pakistani law
-4. Be precise, factual, and cite relevant document sections when possible
-5. Highlight if certain procedures might have been updated or amended recently
-6. Structure your response clearly with bullet points for complex procedures
-7. Include important caveats about legal compliance and documentation
+1. **ALWAYS PRIORITIZE THE MOST RECENT LAW**: When answering, lead with the most recent applicable law (highest year)
+2. **CLEARLY STATE THE LAW AND YEAR**: Format as "According to [Law Name] ([Year])..."
+3. **FLAG SUPERSEDED LAWS**: If older laws are in the context, mention if they've been replaced/amended
+4. **ONLY USE THE CONTEXT ABOVE**: Answer EXCLUSIVELY based on the documents provided above. Do NOT use external knowledge.
+5. **BE EXPLICIT ABOUT GAPS**: If information is missing, state "Based on the provided documents, this information is not available"
+6. **NO EXTERNAL KNOWLEDGE**: Do not use assumptions or knowledge beyond the provided documents
+7. **IF NOT IN CONTEXT, SAY SO**: If the information is not in the provided documents, you MUST state: "This information is not available in the provided legal documents."
+8. **NO HALLUCINATION**: Do not invent laws, sections, or regulations not in the context
+9. **CITE SECTIONS WITH YEARS**: Always include the year when referencing laws (e.g., "Section 5, Aga Khan Properties Act 2025")
+10. **STRUCTURE CLEARLY**: Use bullet points for procedures, requirements, or steps
+11. **LEGAL WARNINGS**: Include caveats about compliance and documentation requirements
 
 RESPONSE FORMAT:
-- Start with a clear, direct answer to the question
-- Reference specific legal provisions or document sections when applicable
-- Use bullet points for procedures, requirements, or steps
-- Include warnings about common legal pitfalls if relevant
-- End with a summary of key legal considerations
+✓ **Check Context First**: Before answering, verify the information is in the provided documents
+✓ **Direct Answer**: Start with the most current legal position from the context
+✓ **Law Citation**: Always format as "[Law Name] ([Year]), Section [X]"
+✓ **Supersession Notice**: If context includes older versions, explicitly state: "Note: This replaces the previous [Old Law] ([Old Year])"
+✓ **Step-by-Step**: For procedures, use numbered steps or clear bullet points
+✓ **Warnings**: Highlight common legal pitfalls or compliance requirements
+✓ **Summary**: End with key takeaways emphasizing the current legal position
+
+EXAMPLE FORMAT:
+"According to the [Most Recent Law Name] (2025), Section X, the procedure is:
+
+1. [First step with specific requirements]
+2. [Second step with documentation needed]
+3. [Third step with timeline]
+
+⚠️ Important: [Key warnings or caveats]
+
+📌 Summary: As of 2025, the current legal requirement is [brief summary]."
+
+EXAMPLE OF CORRECT RESPONSE:
+"According to the [Law Name] (2025), Section 5 from the provided documents:
+1. [Specific procedure from context]
+2. [Specific requirement from context]
+
+Note: The provided documents do not contain information about [missing aspect]."
+
+EXAMPLE OF INCORRECT RESPONSE (DO NOT DO THIS):
+"According to the Building Regulation Amendment (2019)..." [when this is NOT in the context]
 
 ZABITO Legal Response:"""
         
@@ -178,11 +349,17 @@ ZABITO Legal Response:"""
             # Extract source documents information
             source_docs = []
             for i, doc in enumerate(result.get("source_documents", [])):
+                law_year = doc.metadata.get("law_year", "Unknown")
                 source_docs.append({
                     "rank": i + 1,
+                    "law_name": doc.metadata.get("law_name", "Unknown"),
+                    "law_year": law_year,
                     "source": doc.metadata.get("file_name", "Unknown"),
+                    "section": doc.metadata.get("section_number", "N/A"),
                     "content_preview": doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content,
-                    "score": getattr(doc, 'score', 'N/A')
+                    "similarity_score": doc.metadata.get("similarity_score", "N/A"),
+                    "year_score": doc.metadata.get("year_score", "N/A"),
+                    "final_score": doc.metadata.get("final_score", "N/A")
                 })
             
             # Prepare comprehensive response
@@ -192,8 +369,9 @@ ZABITO Legal Response:"""
                 "source_documents": source_docs,
                 "documents_retrieved": len(source_docs),
                 "timestamp": datetime.now().isoformat(),
-                "embedding_model": "Gemini" if self.use_gemini_embeddings else "SentenceTransformer",
-                "retrieval_method": "MMR (Max Marginal Relevance)"
+                "embedding_model": "Gemini",
+                "retrieval_method": f"Year-Aware MMR (weight={self.year_weight})" if self.prioritize_recent else "Standard MMR",
+                "year_aware": self.prioritize_recent
             }
             
             print(f"✅ Response generated with {len(source_docs)} source documents")
@@ -259,10 +437,12 @@ class AdvancedLegalRetriever:
 def get_langchain_config():
     """Get LangChain configuration"""
     return {
-        'google_api_key': "",
-        'pinecone_api_key': "",
-        'index_name': "your-index-name",  # or "zabito-legal-gemini" for local
-        'use_gemini_embeddings': True
+        'google_api_key': GOOGLE_API_KEY or "",
+        'pinecone_api_key': PINECONE_API_KEY or "",
+        'index_name': INDEX_NAME or "your-index-name",  # or "zabito-legal-gemini" for local
+        'use_gemini_embeddings': True,
+        'year_weight': 0.3,  # Adjust: 0.0 = no year priority, 1.0 = only year matters
+        'prioritize_recent': True
     }
 
 # Utility functions
@@ -271,10 +451,11 @@ def display_langchain_response(response: Dict[str, Any]):
     print(f"\n🎯 LANGCHAIN LEGAL RESPONSE")
     print("=" * 80)
     print(f"📝 Question: {response['question']}")
-    print(f"🤖 Model: Gemini-2.5-flash")
+    print(f"🤖 Model: {GEN_AI_MODEL}")
     print(f"🔤 Embeddings: {response.get('embedding_model', 'Unknown')}")
     print(f"🔍 Retrieval: {response.get('retrieval_method', 'Unknown')}")
     print(f"📚 Documents: {response['documents_retrieved']}")
+    print(f"📅 Year-Aware: {response.get('year_aware', False)}")
     print(f"⏰ Time: {response['timestamp']}")
     print("-" * 80)
     
@@ -286,12 +467,21 @@ def display_langchain_response(response: Dict[str, Any]):
     if response['source_documents']:
         print(f"\n📋 Source Documents:")
         for doc in response['source_documents']:
-            print(f"   #{doc['rank']} - {doc['source']}")
+            print(f"\n   #{doc['rank']} - {doc['law_name']} ({doc['law_year']})")
+            print(f"      File: {doc['source']}")
+            print(f"      Section: {doc['section']}")
+            if isinstance(doc['final_score'], float):
+                print(f"      Scores - Semantic: {doc['similarity_score']:.3f} | Year: {doc['year_score']:.3f} | Final: {doc['final_score']:.3f}")
             print(f"      Preview: {doc['content_preview']}")
+
 
 def save_langchain_response(response: Dict[str, Any], filename: str = "langchain_legal_responses.json"):
     """Save LangChain response with append mode"""
     try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        directory_path = os.path.join(script_dir, "responses")
+        directory_path = os.path.normpath(directory_path)
+        filename = os.path.join(directory_path, filename)
         if os.path.exists(filename):
             with open(filename, 'r', encoding='utf-8') as f:
                 existing_data = json.load(f)
@@ -310,31 +500,6 @@ def save_langchain_response(response: Dict[str, Any], filename: str = "langchain
         
     except Exception as e:
         print(f"❌ Error saving LangChain response: {e}")
-
-# Test function
-def test_langchain_assistant():
-    """Test the LangChain legal assistant"""
-    config = get_langchain_config()
-    assistant = LegalAssistantLangChain(**config)
-    
-    test_questions = [
-        "What documents are required for property registration in Sindh?",
-        "Explain the lease agreement process for commercial properties",
-        "What are the legal requirements for property transfer?",
-        "How long does property registration typically take in Karachi?"
-    ]
-    
-    for question in test_questions:
-        print(f"\n{'='*80}")
-        print(f"TESTING LANGCHAIN: '{question}'")
-        print('='*80)
-        
-        response = assistant.query_legal_assistant(question)
-        display_langchain_response(response)
-        
-        # Save first response
-        if question == test_questions[0]:
-            save_langchain_response(response)
 
 # Main interactive function
 def main():
