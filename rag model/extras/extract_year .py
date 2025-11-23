@@ -72,14 +72,13 @@ def extract_year_mapping_from_files(directory_path: str = ".") -> Dict[str, int]
             if match:
                 year = int(match.group(1))
                 # Validate it's a reasonable year
-                if 1800 <= year <= 2024:
+                if 1800 <= year <= 2026:
                     extracted_year = year
                     
                     # Extract clean document name
                     # Remove file extension
                     clean_name = os.path.splitext(filename)[0]
                     # Remove the year part for the document name
-                    clean_name = re.sub(r'\s*\d{4}\s*', ' ', clean_name).strip()
                     document_name = clean_name
                     break
         
@@ -138,6 +137,6 @@ if __name__ == "__main__":
     
     # Save to file for reference
     import json
-    with open("document_year_mapping.json", "w") as f:
-        json.dump(mapping, f, indent=2)
-    print(f"\n💾 Mapping saved to: document_year_mapping.json")
+    # with open("document_year_mapping.json", "w") as f:
+    #     json.dump(mapping, f, indent=2)
+    # print(f"\n💾 Mapping saved to: document_year_mapping.json")

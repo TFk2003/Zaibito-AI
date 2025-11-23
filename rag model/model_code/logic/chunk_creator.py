@@ -2,7 +2,7 @@ from pdf2image import convert_from_path
 import pdfplumber, pytesseract
 from model_code.controller.chunk import create_new_chunk
 from model_code.controller.law_file import LawFileController
-import os, re, nltk
+import os, re, nltk, json
 
 from model_code.models.law_file import LawFile
 
@@ -255,3 +255,80 @@ class ChunkCreator:
                 file_id=file_id 
             )
             print(f"Saved: {filename} ({chunk['word_count']} words)")
+
+    def save_year_mapping_to_file(self, filename):
+        """Save year mapping to a JSON file"""
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        directory_path = os.path.join(script_dir, "responses")
+        directory_path = os.path.normpath(directory_path)
+        file = os.path.join(directory_path, "document_year_mapping.json")
+        # Load your document_year_mapping.json
+        with open(file, "r", encoding="utf-8") as f:
+            filename_year_map = json.load(f)
+        
+        # Extract year using multiple patterns
+        year_patterns = [
+            r'(\d{4})',                    # Simple 4-digit year
+            r'ACT\s+(\d{4})',              # ACT 1925
+            r'Act\s+(\d{4})',              # Act 1925
+            r'ACT+(\d{4})',                # ACT1925
+            r'Act+(\d{4})',                # Act1925
+            r'ACTS\s+(\d{4})',             # ACTS 1925
+            r'Acts\s+(\d{4})',             # Acts 1925
+            r'ACT,\s+(\d{4})',             # ACT, 1925
+            r'Act,\s+(\d{4})',             # Act, 1925
+            r'ACT,\s+(\d{4})+_',           # ACT, 1925_
+            r'ACT.+(\d{4})',               # ACT.1925
+            r'ACT_+(\d{4})',               # ACT_2023
+            r'Act_+(\d{4})',               # Act_2023
+            r'(\d{4})\s+ACT',              # 1925 ACT
+            r'YEAR\s+(\d{4})',             # YEAR 1925
+            r'ORDINANCE\s+(\d{4})',        # ORDINANCE 1925
+            r'Ordinance\s+(\d{4})',        # Ordinance 1925
+            r'ORDINANCE,\s+(\d{4})',       # ORDINANCE, 1925
+            r'Ordinance,\s+(\d{4})',       # Ordinance, 1925
+            r'Ordinance,+(\d{4})',         # Ordinance,1925
+            r'ORDINANCE,+(\d{4})',         # ORDINANCE,1925
+            r'ORDINANCE_+(\d{4})',         # ORDINANCE_2023
+            r'Ordinance_+(\d{4})',         # Ordinance_1925
+            r'ORDINANCE.+(\d{4})',         # ORDINANCE.2023
+            r'Ordinance.+(\d{4})',         # Ordinance.2023
+            r'LAW\s+(\d{4})',              # LAW 1925
+            r'Law\s+(\d{4})',              # Law 1925
+            r'LAWS\s+(\d{4})',             # LAWS 1925
+            r'AMENDMENT\s+(\d{4})',        # AMENDMENT 2023
+            r'Amendment\s+(\d{4})',        # Amendment 2023
+            r'JURISDICTION_+(\d{4})',      # JURISDICTION_2023
+            r'Jurisdiction_+(\d{4})',      # Jurisdiction_2023
+            r'RULES-+(\d{4})+-',           # RULES-2023-
+            r'rules-+(\d{4})+-',           # rules-2023-
+            r'REGULATIONS,\s+(\d{4})',     # REGULATIONS, 2023
+            r'Regulations,\s+(\d{4})',     # Regulations, 2023
+            r'PROCEDURE\s+(\d{4})',        # PROCEDURE 2023
+            r'Procedure\s+(\d{4})'         # Procedure 2023
+        ]
+        
+        document_name = None
+        extracted_year = None
+        
+        for pattern in year_patterns:
+            match = re.search(pattern, filename)
+            if match:
+                year = int(match.group(1))
+                # Validate it's a reasonable year
+                if 1800 <= year <= 2026:
+                    extracted_year = year
+                    
+                    # Extract clean document name
+                    # Remove file extension
+                    clean_name = os.path.splitext(filename)[0]
+                    # Remove the year part for the document name
+                    document_name = clean_name
+                    break
+        
+        if document_name and extracted_year:
+            filename_year_map[document_name] = extracted_year
+            with open(file, "w", encoding="utf-8") as f:
+                json.dump(filename_year_map, f, indent=2)
+            print(f"✅ {filename} → {document_name} ({extracted_year})")
+    

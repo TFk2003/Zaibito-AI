@@ -34,6 +34,7 @@ def working():
             file_id = chunk_creator.get_file_id_by_name(file_name=filename)
             chunk_creator.save_chunks(chunks, file_id=file_id, base_filename=base_filename)
             chunk_creator.mark_file_as_chunked(file_id=file_id)
+            chunk_creator.save_year_mapping_to_file(filename)
         else:
             print("No chunks created.")
 
