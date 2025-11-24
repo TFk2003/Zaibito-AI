@@ -1,4 +1,4 @@
-import os
+import os, re
 import json
 from typing import List, Dict, Any, Optional
 from datetime import datetime
@@ -395,7 +395,7 @@ ZABITO Legal Response:"""
             return []
         
         history = []
-        for i, message in enumerate(self.memory.chat_history):
+        for i, message in enumerate(self.memory.chat_memory):
             role = "user" if i % 2 == 0 else "assistant"
             history.append({
                 "role": role,
@@ -479,7 +479,7 @@ def save_langchain_response(response: Dict[str, Any], filename: str = "langchain
     """Save LangChain response with append mode"""
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        directory_path = os.path.join(script_dir, "responses")
+        directory_path = os.path.join(script_dir, "legal responses")
         directory_path = os.path.normpath(directory_path)
         filename = os.path.join(directory_path, filename)
         if os.path.exists(filename):
@@ -501,6 +501,33 @@ def save_langchain_response(response: Dict[str, Any], filename: str = "langchain
     except Exception as e:
         print(f"❌ Error saving LangChain response: {e}")
 
+def get_last_legal_response_number() -> Optional[int]:
+    """
+    Returns the highest X value from files named 'legal_response_X' in the directory
+    """
+    pattern = re.compile(r'legal_response_(\d+)')
+    max_number = -1
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    directory_path = os.path.join(script_dir, "legal responses")
+    directory_path = os.path.normpath(directory_path)
+
+    try:
+        for filename in os.listdir(directory_path):
+            match = pattern.match(filename)
+            if match:
+                number = int(match.group(1))
+                if number > max_number:
+                    max_number = number
+                    
+        return max_number if max_number != -1 else None
+        
+    except FileNotFoundError:
+        print(f"Directory '{directory_path}' not found")
+        return None
+    except Exception as e:
+        print(f"Error reading directory: {e}")
+        return None
+
 # Main interactive function
 def main():
     """Main interactive LangChain legal assistant"""
@@ -512,18 +539,20 @@ def main():
     print(f"Using: {config['index_name']}")
     print(f"Embeddings: {'Gemini' if config['use_gemini_embeddings'] else 'Local'}")
     print(f"Retrieval: MMR with diversity")
-    
+    n = get_last_legal_response_number() or 0
     while True:
         print("\nOptions:")
         print("1. Ask legal question")
         print("2. View conversation history")
-        print("3. Clear conversation history")
+        print("3. Start new conversation (clear history)")
         #print("4. Test with sample questions")
-        print("5. Exit")
+        print("4. Exit")
         
-        choice = input("\nEnter your choice (1-5): ").strip()
+        choice = 1
+        if choice != '1':
+            choice = input("\nEnter your choice (1-4): ").strip()
         
-        if choice == '5':
+        if choice == '4':
             print("Goodbye!")
             break
             
@@ -539,6 +568,7 @@ def main():
         elif choice == '3':
             assistant.clear_conversation_history()
             print("✅ Conversation history cleared")
+            n += 1
             
         # elif choice == '4':
         #     test_langchain_assistant()
@@ -555,10 +585,8 @@ def main():
                 display_langchain_response(response)
                 
                 # Ask to save
-                save_choice = input("\nSave response? (y/n): ").strip().lower()
-                if save_choice == 'y':
-                    filename = input("Filename (default: langchain_responses.json): ").strip() or "langchain_responses.json"
-                    save_langchain_response(response, filename)
+                filename = "langchain_responses_" + str(n+1) + ".json"
+                save_langchain_response(response, filename)
                     
             except Exception as e:
                 print(f"❌ Error: {e}")

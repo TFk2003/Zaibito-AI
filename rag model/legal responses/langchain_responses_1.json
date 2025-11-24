@@ -1,0 +1,134 @@
+[
+  {
+    "question": "How to register property in Karachi?",
+    "answer": "According to the provided documents, the detailed step-by-step procedure for registering property in Karachi (or Sindh generally) is not explicitly outlined. However, the documents do provide the following information related to property registration:\n\n1.  **Requirement for Trust Properties:**\n    *   According to **Registration of the Properties (Document 15), Section 15(1)**, all movable and immovable properties must be registered in the name of a Trust under the **Registration Act, 1908**.\n    *   **Section 15(2)** further specifies that, without prejudice to the Registration Act, 1908, the registration of properties for a Trust must include details of:\n        *   Authors of the trust\n        *   Beneficiaries\n        *   Trustee\n        *   Co-trustee (if any)\n        *   Any other natural person exercising ultimate effective control over the Trust.\n\n2.  **Capital Value Tax (CVT) during Property Transfer:**\n    *   According to **Capital Value Tax on immovable property (Document 56), Section 56(4)**, the Capital Value Tax (CVT) shall be collected by the person responsible for registering or attesting the transfer of immovable property under law. This collection occurs at the time of registering or attesting the transfer. This implies that property registration is a point where taxes like CVT are levied.\n    *   **Section 56(1)** states that CVT is payable by individuals, associations of persons, firms, development authorities, or companies (which includes a trust as per **Section 56(2)(c)(v)**) that acquire immovable property in Sindh by purchase, gift, exchange, etc.\n\n⚠️ **Important:** Based on the provided documents, the specific procedural steps, required forms, or the designated authority for general property registration (e.g., for individuals or non-trust entities) under the **Registration Act, 1908**, are not detailed. The documents primarily refer to the requirement of registration and the information needed for properties held by a Trust, as well as the collection of Capital Value Tax during the transfer/registration process.\n\n📌 **Summary:** While the documents confirm that immovable properties must be registered (referencing the Registration Act, 1908, especially for Trusts) and that Capital Value Tax is collected during this process, the actual \"how-to\" steps for property registration in Karachi are not available in the provided legal documents.",
+    "source_documents": [
+      {
+        "rank": 1,
+        "law_name": "Trust Amendment Act 2020",
+        "law_year": 2020.0,
+        "source": "Trust Amendment Act 2020",
+        "section": "section 14",
+        "content_preview": "15. Registration of the Properties. (1)All movable and immovable properties must be registered in the name of the Trust under the Registration Act, 1908. Page 5: (2) Without prejudice to the Registrat...",
+        "similarity_score": 0.326072633,
+        "year_score": 0.75,
+        "final_score": 0.45325084309999997
+      },
+      {
+        "rank": 2,
+        "law_name": "Stamp Duty Schedule",
+        "law_year": 2010.0,
+        "source": "Stamp Duty Schedule",
+        "section": "section (3)",
+        "content_preview": "56 Page 51: There shall be levied and collected a tax on the capital value of immovable property to be called Capital Value Tax on immovable property which shall be payable by every individual, associ...",
+        "similarity_score": 0.33989715600000003,
+        "year_score": 0.25,
+        "final_score": 0.3129280092
+      },
+      {
+        "rank": 3,
+        "law_name": "Stamp Duty Schedule",
+        "law_year": 2010.0,
+        "source": "Stamp Duty Schedule",
+        "section": "section (3).",
+        "content_preview": "(d)  Development Authority means an authority formed by or under any law for the purpose of development of an area and includes an authority, society, agency, trust association or institution declared...",
+        "similarity_score": 0.33984380999999997,
+        "year_score": 0.25,
+        "final_score": 0.31289066699999996
+      },
+      {
+        "rank": 4,
+        "law_name": "THE SINDH FINANCE ACT, 2010",
+        "law_year": 2010.0,
+        "source": "THE SINDH FINANCE ACT, 2010",
+        "section": "SECRETARY",
+        "content_preview": "Residential flats situated in Sindh. i. Where the value of immovable property is recorded. a. From 1000 sq. ft. to 1500 sq. ft areas in Category A-1 and I of the valuation table 2 of the recorded valu...",
+        "similarity_score": 0.33955383299999997,
+        "year_score": 0.25,
+        "final_score": 0.31268768309999995
+      },
+      {
+        "rank": 5,
+        "law_name": "Stamp Duty Schedule",
+        "law_year": 2010.0,
+        "source": "Stamp Duty Schedule",
+        "section": "S.G.P.",
+        "content_preview": "Area Il IL I I Frere Quarters I I I I 52 Page 47: Residential Commercial Industrial Flats Future Colony Vv Vv Il Vv Gulshan-e-Iqbal, Block-17 I I I I Gulshan-e-Iqbal, excluding Block-17 II Il I Il Gul...",
+        "similarity_score": 0.32976532000000003,
+        "year_score": 0.25,
+        "final_score": 0.305835724
+      }
+    ],
+    "documents_retrieved": 5,
+    "timestamp": "2025-11-24T23:57:07.331839",
+    "embedding_model": "Gemini",
+    "retrieval_method": "Year-Aware MMR (weight=0.3)",
+    "year_aware": true
+  },
+  {
+    "question": "what does Registeration Act says about it?",
+    "answer": "According to the **Sindh Government Gazette Extraordinary (June 24, 2024)**, which details amendments to the **Registration Act, 1908 (Act No. XVI of 1908)** for the Province of Sindh, the Act now includes several provisions regarding property registration:\n\n1.  **Application to Sindh**: The Act is explicitly applied to the Province of Sindh, with the word \"Sindh\" inserted before \"Registration No.X VI of 1992, Act\" in **Section 1(1)**.\n\n2.  **Key Definitions for E-Registration (Amendment of Section 2)**:\n    *   **Ban List**: A list of immovable properties, in a format notified by the Board of Revenue, displayed on the e-registration web portal. It indicates a legal ban, bar, or restriction on sale, mortgage, or creating a charge on the property by any competent Government agency or Court, including Revenue Courts.\n    *   **Biometric Verification**: The process of capturing and matching thumb impressions, facial recognition, or fingerprints for identity and authentication from the NADRA database to prevent impersonation.\n        *   **Procedure for NADRA Failure**: If NADRA verification fails after all allowed attempts, the party is referred to NADRA for re-validation. If NADRA confirms the thumb impression cannot be performed, the Registering Officer, with District Registrar's approval, shall take the thumb impression on plain paper, certifying its authentication with CNIC or Passport, and upload it to the e-registration system.\n        *   The Board of Revenue shall maintain the database of such verifications and may issue SOPs.\n\n3.  **Mandatory Registration of Certain Instruments (Amendment of Section 17)**:\n    *   **Section 17(1)(bb)** now requires the registration of an instrument which grants power to an attorney or constitutes an agreement to create, declare, assign, limit, or extinguish, by way of sale, any right, title, or interest of the value of one hundred rupees and upwards, in immovable property.\n    *   **Section 17(2)(v)** clarifies that documents granting power to an attorney or agreements to sell any right, title, or interest of the said value in immovable property are *not* exempt from registration.\n\n4.  **Lis Pendens Entries (Amendment of Section 17(3))**:\n    *   **Court Notice**: In case of filing or disposal of any suit, petition, appeal, or other claim affecting any right, title, or interest in immovable property, the court shall issue notice to the Sub-Registrar within whose local limits the property is situated.\n    *   **Sub-Registrar's Action**: Upon receiving such notice from the court or being otherwise informed in writing (and duly verified), the Sub-Registrar shall make or remove the entry of lis pendens in the record relating to the said property.\n    *   **Registration with Lis Pendens**: At the time of registering any document relating to the right, title, or interest in immovable property, the Sub-Registrar shall record any notice of lis pendens in the record but may nonetheless register the same if there is no restraining order from any court or other legal bar to registration.\n\n5.  **E-Registration and Title Verification (Insertion of new Section 32-A)**:\n    *   **Online Verification**: For e-registration, the title document pertaining to the land shall be online verified from the database and the ban list posted on the web portal in the public domain and integrated with the system.\n    *   **Uploading Scanned Copies**: If the relevant title document is not available in the database or not verifiable, the applicant shall upload a scanned copy. The Sub-Registrar shall inform the applicant via SMS and email to upload the scanned copy for verification.\n    *   **Payment of Taxes and Fees**: Applicable taxes and/or fees shall be paid under the relevant laws.\n\n6.  **E-Service for Registration**: Documents can be registered online through E-service as per the format and procedure notified by the Inspector General of Registration with the approval of the Board of Revenue. Applicants will receive auto-generated SMS and email acknowledgments.\n\n7.  **Exemptions from Personal Appearance (Section 38)**:\n    *   Persons unable to appear due to bodily infirmity without risk or serious inconvenience.\n    *   Persons in jail under civil or criminal process.\n    *   Persons exempt by law from personal appearance in Court.\n    *   In such cases, the registering officer shall either go to the person's house or jail, or issue a commission for their examination.\n\n8.  **Registration of Wills and Authorities to Adopt (Sections 40 & 41)**:\n    *   **Who can present**: The testator (or after death, any executor/claimant under a will) or the donor (or after death, the donee/adoptive son) of an authority to adopt.\n    *   **Manner of Registration**: A will or authority to adopt presented by the testator or donor may be registered in the same manner as any other document.\n\n9.  **Trust Properties**: All movable and immovable properties must be registered in the name of the Trust under the **Registration Act, 1908**, and must include details of authors, beneficiaries, trustees, co-trustees, and any person exercising ultimate effective control over the Trust (**Registration of the Properties, Section 15(1) & (2)**).\n\n⚠️ **Important**: While the documents outline significant amendments to the Registration Act, 1908, focusing on e-registration, title verification, lis pendens, and specific instruments, they do not provide a comprehensive, step-by-step procedural guide for *all* types of property registration for general individuals or non-trust entities. The details of \"format and procedure notified by the Inspector General of Registration\" are referenced but not provided.\n\n📌 **Summary**: The **Registration Act, 1908**, as amended for Sindh in June 2024, mandates the registration of specific property-related instruments, introduces a robust e-registration system with online title verification against a \"ban list,\" requires biometric verification, and establishes procedures for recording \"lis pendens\" notices. It also confirms the requirement for trust properties to be registered under this Act.",
+    "source_documents": [
+      {
+        "rank": 1,
+        "law_name": "The Registration (Sindh Amendment) Act 2024",
+        "law_year": 2024.0,
+        "source": "The Registration (Sindh Amendment) Act 2024",
+        "section": "section 1",
+        "content_preview": "3. In the Registration Act, 1908, for its application to the Amendment of Province of Sindh, hereinafter referred to as the said Act, in section 1 of Act section 1, in sub-seetion (1), before the word...",
+        "similarity_score": 0.331108034,
+        "year_score": 0.95,
+        "final_score": 0.5167756238
+      },
+      {
+        "rank": 2,
+        "law_name": "The Registration (Sindh Amendment) Act 2024",
+        "law_year": 2024.0,
+        "source": "The Registration (Sindh Amendment) Act 2024",
+        "section": "section 28",
+        "content_preview": "Amendment of section 28 of Act No.XVi of 1908. Amendment of section 29 of Act No. XVI of 1908. Amendment of section 31 of Act No.XVI of 1968, Amendinent of section 32 of Act No.XVI of 1908. Page 8: 79...",
+        "similarity_score": 0.33016199999999996,
+        "year_score": 0.95,
+        "final_score": 0.5161133999999999
+      },
+      {
+        "rank": 3,
+        "law_name": "The Registration (Sindh Amendment) Act 2024",
+        "law_year": 2024.0,
+        "source": "The Registration (Sindh Amendment) Act 2024",
+        "section": "section 6",
+        "content_preview": "Amendment of section 6 of Act No.XVI of 1908. Amendment of section 7 of Act No.XVI of 1908. Omission of sections 10, 11 and 30 of Act No. XVI of 1908. Amendment of section 14 of Act No. XVI of 1908. P...",
+        "similarity_score": 0.32748413099999996,
+        "year_score": 0.95,
+        "final_score": 0.5142388916999999
+      },
+      {
+        "rank": 4,
+        "law_name": "Trust Amendment Act 2020",
+        "law_year": 2020.0,
+        "source": "Trust Amendment Act 2020",
+        "section": "section 14",
+        "content_preview": "15. Registration of the Properties. (1)All movable and immovable properties must be registered in the name of the Trust under the Registration Act, 1908. Page 5: (2) Without prejudice to the Registrat...",
+        "similarity_score": 0.295265079,
+        "year_score": 0.75,
+        "final_score": 0.43168555529999997
+      },
+      {
+        "rank": 5,
+        "law_name": "The_Registration_Act_1908",
+        "law_year": 1908.0,
+        "source": "The_Registration_Act_1908",
+        "section": "Unknown",
+        "content_preview": "37. Officer or Court to issue and cause service of summons: The officer or Court, upon receipt of the peons fee payable in such cases, shall issue the summons accordingly, and cause it to be served up...",
+        "similarity_score": 0.33229059000000005,
+        "year_score": 0.0,
+        "final_score": 0.232603413
+      }
+    ],
+    "documents_retrieved": 5,
+    "timestamp": "2025-11-24T23:59:17.142867",
+    "embedding_model": "Gemini",
+    "retrieval_method": "Year-Aware MMR (weight=0.3)",
+    "year_aware": true
+  }
+]
