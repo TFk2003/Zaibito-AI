@@ -259,9 +259,12 @@ class ChunkCreator:
     def save_year_mapping_to_file(self, filename):
         """Save year mapping to a JSON file"""
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        directory_path = os.path.join(script_dir, "responses")
+        directory_path = os.path.join(script_dir,"..")
+        directory_path = os.path.normpath(directory_path)
+        directory_path = os.path.join(directory_path,"..", "responses")
         directory_path = os.path.normpath(directory_path)
         file = os.path.join(directory_path, "document_year_mapping.json")
+        print(file)
         # Load your document_year_mapping.json
         with open(file, "r", encoding="utf-8") as f:
             filename_year_map = json.load(f)
