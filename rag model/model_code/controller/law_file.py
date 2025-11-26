@@ -5,10 +5,8 @@ class LawFileController:
     
     def add_law_file(self, pdf_path: str):
         with SessionLocal() as db:
-            with open(pdf_path, "rb") as file:
-                file_data = file.read()
             file_name = os.path.basename(pdf_path)
-            add_file(db=db, file_name=file_name, file_data=file_data)
+            add_file(db=db, file_name=file_name)
     
     def list_law_files(self):
         with SessionLocal() as db:

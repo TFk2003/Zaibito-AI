@@ -2,11 +2,10 @@ from model_code.models.law_file import LawFile
 from sqlalchemy.orm import Session
 from typing import List
 
-def add_file(db: Session, file_name: str, file_data: bytes, chunked: bool = False) -> LawFile:
+def add_file(db: Session, file_name: str, chunked: bool = False) -> LawFile:
 
     new_file = LawFile(
         file_name=file_name,
-        file_data=file_data,
         chunked=chunked
     )
     db.add(new_file)
